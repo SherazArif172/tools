@@ -5,6 +5,7 @@ import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
 import { SearchIcon, ArrowRightIcon } from "lucide-react";
 import { TextGenerateEffect } from "@/components/TextGenerateEffect";
+import Link from "next/link";
 
 export default function HeroSection() {
   const [searchQuery, setSearchQuery] = useState("");
@@ -51,18 +52,18 @@ export default function HeroSection() {
 
           <div className="flex flex-wrap justify-center gap-x-6 gap-y-2 mt-4 text-sm text-gray-500">
             <span>Popular tools:</span>
-            <a href="#" className="text-primary hover:underline">
+            <Link href="#" className="text-primary hover:underline">
               PDF to Excel
-            </a>
-            <a href="#" className="text-primary hover:underline">
+            </Link>
+            <Link href="#" className="text-primary hover:underline">
               Merge PDFs
-            </a>
-            <a href="#" className="text-primary hover:underline">
+            </Link>
+            <Link href="#" className="text-primary hover:underline">
               Compress Images
-            </a>
-            <a href="#" className="text-primary hover:underline">
+            </Link>
+            <Link href="#" className="text-primary hover:underline">
               Word to PDF
-            </a>
+            </Link>
           </div>
         </div>
       </div>

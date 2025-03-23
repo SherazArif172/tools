@@ -20,6 +20,7 @@ export default function ToolsSection() {
       featuredTool: "PDF Creator",
       color: "bg-purple-100 text-purple-500",
       iconBg: "bg-purple-500",
+      path: "/pdf",
     },
     {
       icon: <Image className="h-5 w-5" />,
@@ -29,6 +30,7 @@ export default function ToolsSection() {
       featuredTool: "Remove BG",
       color: "bg-orange-100 text-orange-500",
       iconBg: "bg-orange-500",
+      path: "/", // Added path
     },
     {
       icon: <Video className="h-5 w-5" />,
@@ -38,6 +40,7 @@ export default function ToolsSection() {
       featuredTool: "Mute Video",
       color: "bg-rose-100 text-rose-500",
       iconBg: "bg-rose-500",
+      path: "/", // Added path
     },
     {
       icon: <MessageSquare className="h-5 w-5" />,
@@ -47,6 +50,7 @@ export default function ToolsSection() {
       featuredTool: "Paragraph Writer",
       color: "bg-blue-100 text-blue-500",
       iconBg: "bg-blue-500",
+      path: "/", // Added path
     },
     {
       icon: <FileSpreadsheet className="h-5 w-5" />,
@@ -56,6 +60,7 @@ export default function ToolsSection() {
       featuredTool: "Split Excel",
       color: "bg-teal-100 text-teal-500",
       iconBg: "bg-teal-500",
+      path: "/", // Added path
     },
   ];
 
@@ -65,29 +70,30 @@ export default function ToolsSection() {
         {tools.map((tool, index) => (
           <Card key={index} className="border">
             <CardContent className="pt-6">
-              <div className="flex justify-between items-start mb-4">
-                <div className={`${tool.iconBg} p-2 rounded-full`}>
-                  <div className="text-white">{tool.icon}</div>
+              <Link
+                href={tool.path}
+                className="text-muted-foreground hover:text-foreground"
+              >
+                <div className="flex justify-between items-start mb-4">
+                  <div className={`${tool.iconBg} p-2 rounded-full`}>
+                    <div className="text-white">{tool.icon}</div>
+                  </div>
+                  <Badge variant="secondary" className={tool.color}>
+                    {tool.count}
+                  </Badge>
                 </div>
-                <Badge variant="secondary" className={tool.color}>
-                  {tool.count}
-                </Badge>
-              </div>
 
-              <div className="flex justify-between items-center">
-                <div>
-                  <h3 className="font-medium">{tool.title}</h3>
-                  <p className="text-sm text-muted-foreground">
-                    {tool.description}
-                  </p>
-                </div>
-                <Link
-                  href="#"
-                  className="text-muted-foreground hover:text-foreground"
-                >
+                <div className="flex justify-between items-center">
+                  <div>
+                    <h3 className="font-medium">{tool.title}</h3>
+                    <p className="text-sm text-muted-foreground">
+                      {tool.description}
+                    </p>
+                  </div>
+
                   <ArrowRight className="h-4 w-4" />
-                </Link>
-              </div>
+                </div>
+              </Link>
             </CardContent>
 
             <CardFooter className="bg-muted/50 px-6 py-3 flex justify-between text-sm">
