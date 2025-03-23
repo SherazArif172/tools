@@ -48,6 +48,15 @@ const pdfTools = [
     path: "/png-to-pdf", // Set path to "/"
   },
   {
+    id: "image-to-pdf",
+    title: "IMAGE to PDF",
+    description: "Convert images to PDF files",
+    color: "bg-pink-100",
+    iconColor: "text-pink-500",
+    icon: <Image className="h-6 w-6" />,
+    path: "/image-to-pdf", // Set path to "/"
+  },
+  {
     id: "merge-pdf",
     title: "Merge PDF",
     description: "Combine PDF files into a single PDF file",
@@ -272,15 +281,7 @@ const pdfTools = [
     icon: <Stamp className="h-6 w-6" />,
     path: "/", // Set path to "/"
   },
-  {
-    id: "image-to-pdf",
-    title: "IMAGE to PDF",
-    description: "Convert images to PDF files",
-    color: "bg-pink-100",
-    iconColor: "text-pink-500",
-    icon: <Image className="h-6 w-6" />,
-    path: "/", // Set path to "/"
-  },
+
   {
     id: "heic-to-pdf",
     title: "HEIC to PDF",
