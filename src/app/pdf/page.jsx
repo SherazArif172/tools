@@ -72,7 +72,7 @@ const pdfTools = [
     color: "bg-indigo-100",
     iconColor: "text-indigo-500",
     icon: <Scissors className="h-6 w-6" />,
-    path: "/", // Set path to "/"
+    path: "/split-pdf", // Set path to "/"
   },
   {
     id: "compress-pdf",
