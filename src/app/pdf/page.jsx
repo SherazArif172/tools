@@ -63,7 +63,7 @@ const pdfTools = [
     color: "bg-amber-100",
     iconColor: "text-amber-500",
     icon: <Layers className="h-6 w-6" />,
-    path: "/", // Set path to "/"
+    path: "/merge-pdf", // Set path to "/"
   },
   {
     id: "split-pdf",
