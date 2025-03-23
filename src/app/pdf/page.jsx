@@ -99,7 +99,7 @@ const pdfTools = [
     color: "bg-green-100",
     iconColor: "text-green-500",
     icon: <FileText className="h-6 w-6" />,
-    path: "/", // Set path to "/"
+    path: "/word-to-pdf", // Set path to "/"
   },
   {
     id: "html-to-pdf",
