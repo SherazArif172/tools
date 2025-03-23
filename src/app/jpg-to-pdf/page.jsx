@@ -6,7 +6,7 @@ import { Button } from "@/components/ui/button";
 import { Card } from "@/components/ui/card";
 import { Switch } from "@/components/ui/switch";
 import { Label } from "@/components/ui/label";
-import { Download, X, RefreshCw, FolderOpen } from "lucide-react";
+import { Download, X, RefreshCw, FolderOpen, AlertCircle } from "lucide-react";
 import jsPDF from "jspdf";
 import JSZip from "jszip";
 
@@ -16,17 +16,47 @@ export default function PdfTools() {
   const [singlePdf, setSinglePdf] = useState(false);
   const [progress, setProgress] = useState(0);
   const [isConverting, setIsConverting] = useState(false);
+  const [error, setError] = useState("");
 
-  const { getRootProps, getInputProps, isDragActive } = useDropzone({
-    accept: {
-      "image/jpeg": [".jpg", ".jpeg"],
-    },
-    onDrop: (acceptedFiles) => {
-      const newImages = acceptedFiles.map((file) => URL.createObjectURL(file));
-      setImages((prev) => [...prev, ...newImages]);
-      setPdfUrl(null);
-    },
-  });
+  const { getRootProps, getInputProps, isDragActive, fileRejections } =
+    useDropzone({
+      accept: {
+        "image/jpeg": [".jpg", ".jpeg"],
+      },
+      maxSize: 10485760, // 10MB
+      onDrop: (acceptedFiles, rejectedFiles) => {
+        if (rejectedFiles.length > 0) {
+          const fileTypes = rejectedFiles
+            .map((file) => file.file.type)
+            .join(", ");
+          setError(
+            `Only JPG/JPEG files are allowed. Rejected files: ${fileTypes}`
+          );
+          setTimeout(() => setError(""), 5000); // Clear error after 5 seconds
+          return;
+        }
+
+        setError("");
+        const newImages = acceptedFiles.map((file) =>
+          URL.createObjectURL(file)
+        );
+        setImages((prev) => [...prev, ...newImages]);
+        setPdfUrl(null);
+      },
+      onDropRejected: (rejectedFiles) => {
+        const errors = rejectedFiles.map((file) => {
+          if (file.errors[0].code === "file-invalid-type") {
+            return `${file.file.name} is not a JPG/JPEG file`;
+          }
+          if (file.errors[0].code === "file-too-large") {
+            return `${file.file.name} is larger than 10MB`;
+          }
+          return file.errors[0].message;
+        });
+        setError(errors.join(", "));
+        setTimeout(() => setError(""), 5000); // Clear error after 5 seconds
+      },
+    });
 
   const removeImage = (index) => {
     setImages((prev) => {
@@ -151,7 +181,7 @@ export default function PdfTools() {
           JPG to PDF Converter
         </h1>
         <p className="text-gray-600 text-base sm:text-lg md:text-xl mb-8 sm:mb-12 text-center">
-          Convert your JPG images to PDF format
+          Convert your JPG/JPEG images to PDF format
         </p>
 
         <Card className="w-full max-w-xl p-4 sm:p-6">
@@ -165,7 +195,7 @@ export default function PdfTools() {
                 className="bg-background border-[#1E90FF] text-[#1E90FF] hover:bg-[#1E90FF] hover:text-white h-12 rounded-lg px-4 sm:px-6 font-medium w-full"
               >
                 <FolderOpen className="mr-2 h-5 w-5" />
-                Upload Files
+                Upload JPG Files
               </Button>
 
               <Button
@@ -177,6 +207,13 @@ export default function PdfTools() {
               </Button>
             </div>
 
+            {error && (
+              <div className="w-full bg-red-50 text-red-500 p-3 rounded-lg flex items-center gap-2">
+                <AlertCircle className="h-5 w-5" />
+                <p className="text-sm">{error}</p>
+              </div>
+            )}
+
             <div
               {...getRootProps()}
               className={`w-full border-2 border-dashed rounded-lg p-4 sm:p-8 text-center cursor-pointer transition-colors
@@ -184,13 +221,17 @@ export default function PdfTools() {
                   isDragActive
                     ? "border-[#1E90FF] bg-blue-50"
                     : "border-gray-300 hover:border-[#1E90FF]"
-                }`}
+                }
+                ${error ? "border-red-300" : ""}`}
             >
               <input {...getInputProps()} />
               <p className="text-gray-500 text-lg">
                 {isDragActive
                   ? "Drop the JPG images here"
-                  : "or Drag files here"}
+                  : "or Drag JPG files here"}
+              </p>
+              <p className="text-sm text-gray-400 mt-2">
+                Only JPG/JPEG files are supported (max 10MB)
               </p>
             </div>
 

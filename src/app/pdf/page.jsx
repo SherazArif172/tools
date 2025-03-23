@@ -36,7 +36,16 @@ const pdfTools = [
     color: "bg-purple-100",
     iconColor: "text-purple-500",
     icon: <Image className="h-6 w-6" />,
-    path: "/jpgtopdf", // Set path to "/"
+    path: "/jpg-to-pdf", // Set path to "/"
+  },
+  {
+    id: "png-to-pdf",
+    title: "PNG to PDF",
+    description: "Convert PNG images to PDF",
+    color: "bg-green-100",
+    iconColor: "text-green-500",
+    icon: <Image className="h-6 w-6" />,
+    path: "/png-to-pdf", // Set path to "/"
   },
   {
     id: "merge-pdf",
