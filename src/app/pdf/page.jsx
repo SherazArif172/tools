@@ -81,7 +81,7 @@ const pdfTools = [
     color: "bg-rose-100",
     iconColor: "text-rose-500",
     icon: <FileOutput className="h-6 w-6" />,
-    path: "/", // Set path to "/"
+    path: "/compress-pdf", // Set path to "/"
   },
   {
     id: "pdf-to-word",
