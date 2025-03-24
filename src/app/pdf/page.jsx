@@ -83,15 +83,15 @@ const pdfTools = [
     icon: <FileOutput className="h-6 w-6" />,
     path: "/compress-pdf", // Set path to "/"
   },
-  {
-    id: "pdf-to-word",
-    title: "PDF to Word",
-    description: "Convert PDF to Word documents",
-    color: "bg-blue-100",
-    iconColor: "text-blue-500",
-    icon: <FileText className="h-6 w-6" />,
-    path: "/", // Set path to "/"
-  },
+  // {
+  //   id: "pdf-to-word",
+  //   title: "PDF to Word",
+  //   description: "Convert PDF to Word documents",
+  //   color: "bg-blue-100",
+  //   iconColor: "text-blue-500",
+  //   icon: <FileText className="h-6 w-6" />,
+  //   path: "/", // Set path to "/"
+  // },
   // {
   //   id: "word-to-pdf",
   //   title: "Word to PDF",
@@ -101,87 +101,87 @@ const pdfTools = [
   //   icon: <FileText className="h-6 w-6" />,
   //   path: "/word-to-pdf", // Set path to "/"
   // },
-  {
-    id: "html-to-pdf",
-    title: "HTML to PDF",
-    description: "Convert HTML pages to PDF files",
-    color: "bg-cyan-100",
-    iconColor: "text-cyan-500",
-    icon: <FileCode className="h-6 w-6" />,
-    path: "/", // Set path to "/"
-  },
-  {
-    id: "pdf-to-jpg",
-    title: "PDF to JPG",
-    description: "Convert PDF to JPG/JPEG images",
-    color: "bg-emerald-100",
-    iconColor: "text-emerald-500",
-    icon: <FileImage className="h-6 w-6" />,
-    path: "/", // Set path to "/"
-  },
-  {
-    id: "pdf-translator",
-    title: "PDF Translator",
-    description: "Translate PDF documents",
-    color: "bg-green-100",
-    iconColor: "text-green-500",
-    icon: <RefreshCw className="h-6 w-6" />,
-    path: "/", // Set path to "/"
-  },
-  {
-    id: "url-to-pdf",
-    title: "URL to PDF",
-    description: "Convert webpages to PDF files",
-    color: "bg-red-100",
-    iconColor: "text-red-500",
-    icon: <Globe className="h-6 w-6" />,
-    path: "/", // Set path to "/"
-  },
-  {
-    id: "rotate-pdf",
-    title: "Rotate PDF",
-    description: "Rotate pages in a PDF file",
-    color: "bg-blue-100",
-    iconColor: "text-blue-500",
-    icon: <RotateCw className="h-6 w-6" />,
-    path: "/", // Set path to "/"
-  },
-  {
-    id: "scan-to-image-pdf",
-    title: "Scan to Image PDF",
-    description: "Convert scanned images to PDF",
-    color: "bg-yellow-100",
-    iconColor: "text-yellow-500",
-    icon: <ScanLine className="h-6 w-6" />,
-    path: "/", // Set path to "/"
-  },
-  {
-    id: "create-pdf",
-    title: "Create PDF",
-    description: "Create a PDF from scratch",
-    color: "bg-blue-100",
-    iconColor: "text-blue-500",
-    icon: <FilePlus className="h-6 w-6" />,
-    path: "/", // Set path to "/"
-  },
-  {
-    id: "edit-pdf",
-    title: "Edit PDF",
-    description: "Edit content in your PDF files",
-    color: "bg-amber-100",
-    iconColor: "text-amber-500",
-    icon: <Edit className="h-6 w-6" />,
-    path: "/", // Set path to "/"
-  },
-  {
-    id: "pdf-to-ppt",
-    title: "PDF to PPT",
-    description: "Convert PDF to PowerPoint presentations",
-    color: "bg-orange-100",
-    iconColor: "text-orange-500",
-    icon: <FilePresentation className="h-6 w-6" />,
-    path: "/", // Set path to "/"
-  },
+  // {
+  //   id: "html-to-pdf",
+  //   title: "HTML to PDF",
+  //   description: "Convert HTML pages to PDF files",
+  //   color: "bg-cyan-100",
+  //   iconColor: "text-cyan-500",
+  //   icon: <FileCode className="h-6 w-6" />,
+  //   path: "/", // Set path to "/"
+  // },
+  // {
+  //   id: "pdf-to-jpg",
+  //   title: "PDF to JPG",
+  //   description: "Convert PDF to JPG/JPEG images",
+  //   color: "bg-emerald-100",
+  //   iconColor: "text-emerald-500",
+  //   icon: <FileImage className="h-6 w-6" />,
+  //   path: "/", // Set path to "/"
+  // },
+  // {
+  //   id: "pdf-translator",
+  //   title: "PDF Translator",
+  //   description: "Translate PDF documents",
+  //   color: "bg-green-100",
+  //   iconColor: "text-green-500",
+  //   icon: <RefreshCw className="h-6 w-6" />,
+  //   path: "/", // Set path to "/"
+  // },
+  // {
+  //   id: "url-to-pdf",
+  //   title: "URL to PDF",
+  //   description: "Convert webpages to PDF files",
+  //   color: "bg-red-100",
+  //   iconColor: "text-red-500",
+  //   icon: <Globe className="h-6 w-6" />,
+  //   path: "/", // Set path to "/"
+  // },
+  // {
+  //   id: "rotate-pdf",
+  //   title: "Rotate PDF",
+  //   description: "Rotate pages in a PDF file",
+  //   color: "bg-blue-100",
+  //   iconColor: "text-blue-500",
+  //   icon: <RotateCw className="h-6 w-6" />,
+  //   path: "/", // Set path to "/"
+  // },
+  // {
+  //   id: "scan-to-image-pdf",
+  //   title: "Scan to Image PDF",
+  //   description: "Convert scanned images to PDF",
+  //   color: "bg-yellow-100",
+  //   iconColor: "text-yellow-500",
+  //   icon: <ScanLine className="h-6 w-6" />,
+  //   path: "/", // Set path to "/"
+  // },
+  // {
+  //   id: "create-pdf",
+  //   title: "Create PDF",
+  //   description: "Create a PDF from scratch",
+  //   color: "bg-blue-100",
+  //   iconColor: "text-blue-500",
+  //   icon: <FilePlus className="h-6 w-6" />,
+  //   path: "/", // Set path to "/"
+  // },
+  // {
+  //   id: "edit-pdf",
+  //   title: "Edit PDF",
+  //   description: "Edit content in your PDF files",
+  //   color: "bg-amber-100",
+  //   iconColor: "text-amber-500",
+  //   icon: <Edit className="h-6 w-6" />,
+  //   path: "/", // Set path to "/"
+  // },
+  // {
+  //   id: "pdf-to-ppt",
+  //   title: "PDF to PPT",
+  //   description: "Convert PDF to PowerPoint presentations",
+  //   color: "bg-orange-100",
+  //   iconColor: "text-orange-500",
+  //   icon: <FilePresentation className="h-6 w-6" />,
+  //   path: "/", // Set path to "/"
+  // },
   {
     id: "ppt-to-pdf",
     title: "PPT to PDF",
@@ -191,15 +191,15 @@ const pdfTools = [
     icon: <FilePresentation className="h-6 w-6" />,
     path: "/", // Set path to "/"
   },
-  {
-    id: "pdf-to-excel",
-    title: "PDF to Excel",
-    description: "Convert PDF to Excel spreadsheets",
-    color: "bg-green-100",
-    iconColor: "text-green-500",
-    icon: <FileSpreadsheet className="h-6 w-6" />,
-    path: "/", // Set path to "/"
-  },
+  // {
+  //   id: "pdf-to-excel",
+  //   title: "PDF to Excel",
+  //   description: "Convert PDF to Excel spreadsheets",
+  //   color: "bg-green-100",
+  //   iconColor: "text-green-500",
+  //   icon: <FileSpreadsheet className="h-6 w-6" />,
+  //   path: "/", // Set path to "/"
+  // },
   {
     id: "excel-to-pdf",
     title: "Excel to PDF",
@@ -218,15 +218,15 @@ const pdfTools = [
     icon: <Type className="h-6 w-6" />,
     path: "/", // Set path to "/"
   },
-  {
-    id: "pdf-to-epub",
-    title: "PDF to EPUB",
-    description: "Convert PDF to EPUB files",
-    color: "bg-blue-100",
-    iconColor: "text-blue-500",
-    icon: <BookOpen className="h-6 w-6" />,
-    path: "/", // Set path to "/"
-  },
+  // {
+  //   id: "pdf-to-epub",
+  //   title: "PDF to EPUB",
+  //   description: "Convert PDF to EPUB files",
+  //   color: "bg-blue-100",
+  //   iconColor: "text-blue-500",
+  //   icon: <BookOpen className="h-6 w-6" />,
+  //   path: "/", // Set path to "/"
+  // },
   {
     id: "epub-to-pdf",
     title: "EPUB to PDF",
@@ -245,24 +245,24 @@ const pdfTools = [
     icon: <Stamp className="h-6 w-6" />,
     path: "/", // Set path to "/"
   },
-  {
-    id: "protect-pdf",
-    title: "Protect PDF",
-    description: "Add password protection to PDF files",
-    color: "bg-amber-100",
-    iconColor: "text-amber-500",
-    icon: <Lock className="h-6 w-6" />,
-    path: "/", // Set path to "/"
-  },
-  {
-    id: "pdf-to-text",
-    title: "PDF to Text",
-    description: "Extract text from PDF documents",
-    color: "bg-cyan-100",
-    iconColor: "text-cyan-500",
-    icon: <Type className="h-6 w-6" />,
-    path: "/", // Set path to "/"
-  },
+  // {
+  //   id: "protect-pdf",
+  //   title: "Protect PDF",
+  //   description: "Add password protection to PDF files",
+  //   color: "bg-amber-100",
+  //   iconColor: "text-amber-500",
+  //   icon: <Lock className="h-6 w-6" />,
+  //   path: "/", // Set path to "/"
+  // },
+  // {
+  //   id: "pdf-to-text",
+  //   title: "PDF to Text",
+  //   description: "Extract text from PDF documents",
+  //   color: "bg-cyan-100",
+  //   iconColor: "text-cyan-500",
+  //   icon: <Type className="h-6 w-6" />,
+  //   path: "/", // Set path to "/"
+  // },
   {
     id: "text-to-pdf",
     title: "Text to PDF",
@@ -272,16 +272,15 @@ const pdfTools = [
     icon: <FileType className="h-6 w-6" />,
     path: "/", // Set path to "/"
   },
-  {
-    id: "add-watermark",
-    title: "Add Watermark",
-    description: "Add watermarks to your PDF",
-    color: "bg-purple-100",
-    iconColor: "text-purple-500",
-    icon: <Stamp className="h-6 w-6" />,
-    path: "/", // Set path to "/"
-  },
-
+  // {
+  //   id: "add-watermark",
+  //   title: "Add Watermark",
+  //   description: "Add watermarks to your PDF",
+  //   color: "bg-purple-100",
+  //   iconColor: "text-purple-500",
+  //   icon: <Stamp className="h-6 w-6" />,
+  //   path: "/", // Set path to "/"
+  // },
   {
     id: "heic-to-pdf",
     title: "HEIC to PDF",
@@ -300,15 +299,15 @@ const pdfTools = [
     icon: <FileCode className="h-6 w-6" />,
     path: "/", // Set path to "/"
   },
-  {
-    id: "pdf-to-svg",
-    title: "PDF to SVG",
-    description: "Convert PDF to SVG files",
-    color: "bg-green-100",
-    iconColor: "text-green-500",
-    icon: <FileCode className="h-6 w-6" />,
-    path: "/", // Set path to "/"
-  },
+  // {
+  //   id: "pdf-to-svg",
+  //   title: "PDF to SVG",
+  //   description: "Convert PDF to SVG files",
+  //   color: "bg-green-100",
+  //   iconColor: "text-green-500",
+  //   icon: <FileCode className="h-6 w-6" />,
+  //   path: "/", // Set path to "/"
+  // },
   {
     id: "webp-to-pdf",
     title: "WEBP to PDF",
@@ -318,15 +317,15 @@ const pdfTools = [
     icon: <Image className="h-6 w-6" />,
     path: "/", // Set path to "/"
   },
-  {
-    id: "pdf-to-webp",
-    title: "PDF to WEBP",
-    description: "Convert PDF to WEBP images",
-    color: "bg-cyan-100",
-    iconColor: "text-cyan-500",
-    icon: <FileImage className="h-6 w-6" />,
-    path: "/", // Set path to "/"
-  },
+  // {
+  //   id: "pdf-to-webp",
+  //   title: "PDF to WEBP",
+  //   description: "Convert PDF to WEBP images",
+  //   color: "bg-cyan-100",
+  //   iconColor: "text-cyan-500",
+  //   icon: <FileImage className="h-6 w-6" />,
+  //   path: "/", // Set path to "/"
+  // },
   {
     id: "gif-to-pdf",
     title: "GIF to PDF",
