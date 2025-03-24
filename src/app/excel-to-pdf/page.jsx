@@ -30,9 +30,9 @@ const styles = StyleSheet.create({
   },
   table: {
     display: "table",
-    width: "auto",
+    width: "100%",
     borderStyle: "solid",
-    borderColor: "#e5e7eb",
+    borderColor: "#000000",
     borderWidth: 1,
     borderRightWidth: 0,
     borderBottomWidth: 0,
@@ -40,26 +40,45 @@ const styles = StyleSheet.create({
   tableRow: {
     flexDirection: "row",
     borderBottomWidth: 1,
-    borderBottomColor: "#e5e7eb",
+    borderBottomColor: "#000000",
     minHeight: 25,
     alignItems: "center",
   },
-  tableHeader: {
-    backgroundColor: "#f3f4f6",
-  },
   tableCell: {
-    width: "25%",
     borderStyle: "solid",
-    borderColor: "#e5e7eb",
+    borderColor: "#000000",
     borderWidth: 1,
     borderLeftWidth: 0,
     borderTopWidth: 0,
     padding: 5,
   },
-  headerCell: {
-    fontWeight: "bold",
+  cellText: {
+    fontSize: 10,
+    color: "#000000",
+  },
+  cellTextCenter: {
+    textAlign: "center",
+  },
+  cellTextRight: {
+    textAlign: "right",
   },
 });
+
+// Add this helper function at the top level
+const convertExcelColor = (argb) => {
+  if (!argb) return "#ffffff"; // default white
+
+  // If it's already a hex color starting with #
+  if (argb.startsWith("#")) return argb;
+
+  // If it's an ARGB value
+  if (argb.length === 8) {
+    // Remove alpha channel and add # prefix
+    return "#" + argb.substring(2);
+  }
+
+  return "#ffffff"; // fallback to white
+};
 
 export default function ExcelToPdf() {
   const [file, setFile] = useState(null);
@@ -133,12 +152,94 @@ export default function ExcelToPdf() {
 
       const headers = [];
       const data = [];
+      const columnWidths = [];
+      const columnMaxLengths = [];
 
+      // Get worksheet dimensions
+      const maxRow = worksheet.rowCount;
+      const maxCol = worksheet.columnCount;
+
+      // First pass: calculate maximum text length for each column
+      worksheet.eachRow((row, rowNumber) => {
+        row.eachCell((cell, colNumber) => {
+          const textLength = (cell.text || "").length;
+          if (
+            !columnMaxLengths[colNumber - 1] ||
+            textLength > columnMaxLengths[colNumber - 1]
+          ) {
+            columnMaxLengths[colNumber - 1] = textLength;
+          }
+        });
+      });
+
+      // Calculate column widths based on content
+      for (let col = 1; col <= maxCol; col++) {
+        const column = worksheet.getColumn(col);
+        const maxLength = columnMaxLengths[col - 1] || 0;
+
+        // Base width calculation:
+        // - Use Excel's width if defined
+        // - Otherwise calculate based on content length (with minimum and maximum constraints)
+        let width = column.width;
+
+        if (!width || width < 1) {
+          // Calculate width based on content length
+          // Approximate characters per width unit
+          const charsPerUnit = 1.8;
+          width = Math.max(
+            8, // minimum width
+            Math.min(
+              Math.ceil(maxLength / charsPerUnit),
+              50 // maximum width
+            )
+          );
+        }
+
+        columnWidths[col - 1] = width;
+      }
+
+      // Normalize column widths to percentages
+      const totalWidth = columnWidths.reduce((sum, width) => sum + width, 0);
+      const normalizedWidths = columnWidths.map((width) => {
+        const percentage = (width / totalWidth) * 100;
+        // Ensure minimum width percentage
+        return Math.max(percentage, 5);
+      });
+
+      // Process rows with data
       worksheet.eachRow((row, rowNumber) => {
         const rowData = [];
-        row.eachCell((cell) => {
-          rowData.push(cell.text || "");
+        row.eachCell((cell, colNumber) => {
+          let backgroundColor = "#ffffff";
+
+          if (cell.fill) {
+            if (cell.fill.type === "pattern" && cell.fill.pattern === "solid") {
+              backgroundColor = convertExcelColor(cell.fill.fgColor?.argb);
+            } else if (cell.fill.type === "gradient") {
+              backgroundColor = convertExcelColor(
+                cell.fill.gradient?.stops?.[0]?.color?.argb
+              );
+            }
+          }
+
+          const cellData = {
+            text: cell.text || "",
+            alignment: cell.alignment?.horizontal || "left",
+            backgroundColor,
+            isBold: cell.font?.bold || false,
+          };
+          rowData.push(cellData);
         });
+
+        // Fill empty cells
+        while (rowData.length < maxCol) {
+          rowData.push({
+            text: "",
+            alignment: "left",
+            backgroundColor: "#ffffff",
+            isBold: false,
+          });
+        }
 
         if (rowNumber === 1) {
           headers.push(rowData);
@@ -147,7 +248,11 @@ export default function ExcelToPdf() {
         }
       });
 
-      setExcelData({ headers: headers[0], data });
+      setExcelData({
+        headers: headers[0],
+        data,
+        columnWidths: normalizedWidths,
+      });
       setShowPreview(true);
       setIsConverting(false);
     } catch (error) {
@@ -169,13 +274,30 @@ export default function ExcelToPdf() {
             <Text style={styles.title}>{file.name.split(".")[0]}</Text>
             <View style={styles.table}>
               {/* Header Row */}
-              <View style={[styles.tableRow, styles.tableHeader]}>
+              <View style={styles.tableRow}>
                 {excelData.headers.map((header, index) => (
                   <View
                     key={index}
-                    style={[styles.tableCell, styles.headerCell]}
+                    style={[
+                      styles.tableCell,
+                      {
+                        width: `${excelData.columnWidths[index]}%`,
+                        backgroundColor: header.backgroundColor,
+                      },
+                    ]}
                   >
-                    <Text>{header}</Text>
+                    <Text
+                      style={[
+                        styles.cellText,
+                        {
+                          fontWeight: header.isBold ? "bold" : "normal",
+                        },
+                        header.alignment === "center" && styles.cellTextCenter,
+                        header.alignment === "right" && styles.cellTextRight,
+                      ]}
+                    >
+                      {header.text}
+                    </Text>
                   </View>
                 ))}
               </View>
@@ -183,8 +305,28 @@ export default function ExcelToPdf() {
               {excelData.data.map((row, rowIndex) => (
                 <View key={rowIndex} style={styles.tableRow}>
                   {row.map((cell, cellIndex) => (
-                    <View key={cellIndex} style={styles.tableCell}>
-                      <Text>{cell}</Text>
+                    <View
+                      key={cellIndex}
+                      style={[
+                        styles.tableCell,
+                        {
+                          width: `${excelData.columnWidths[cellIndex]}%`,
+                          backgroundColor: cell.backgroundColor,
+                        },
+                      ]}
+                    >
+                      <Text
+                        style={[
+                          styles.cellText,
+                          {
+                            fontWeight: cell.isBold ? "bold" : "normal",
+                          },
+                          cell.alignment === "center" && styles.cellTextCenter,
+                          cell.alignment === "right" && styles.cellTextRight,
+                        ]}
+                      >
+                        {cell.text}
+                      </Text>
                     </View>
                   ))}
                 </View>
@@ -314,13 +456,34 @@ export default function ExcelToPdf() {
                         </Text>
                         <View style={styles.table}>
                           {/* Header Row */}
-                          <View style={[styles.tableRow, styles.tableHeader]}>
+                          <View style={styles.tableRow}>
                             {excelData.headers.map((header, index) => (
                               <View
                                 key={index}
-                                style={[styles.tableCell, styles.headerCell]}
+                                style={[
+                                  styles.tableCell,
+                                  {
+                                    width: `${excelData.columnWidths[index]}%`,
+                                    backgroundColor: header.backgroundColor,
+                                  },
+                                ]}
                               >
-                                <Text>{header}</Text>
+                                <Text
+                                  style={[
+                                    styles.cellText,
+                                    {
+                                      fontWeight: header.isBold
+                                        ? "bold"
+                                        : "normal",
+                                    },
+                                    header.alignment === "center" &&
+                                      styles.cellTextCenter,
+                                    header.alignment === "right" &&
+                                      styles.cellTextRight,
+                                  ]}
+                                >
+                                  {header.text}
+                                </Text>
                               </View>
                             ))}
                           </View>
@@ -328,8 +491,32 @@ export default function ExcelToPdf() {
                           {excelData.data.map((row, rowIndex) => (
                             <View key={rowIndex} style={styles.tableRow}>
                               {row.map((cell, cellIndex) => (
-                                <View key={cellIndex} style={styles.tableCell}>
-                                  <Text>{cell}</Text>
+                                <View
+                                  key={cellIndex}
+                                  style={[
+                                    styles.tableCell,
+                                    {
+                                      width: `${excelData.columnWidths[cellIndex]}%`,
+                                      backgroundColor: cell.backgroundColor,
+                                    },
+                                  ]}
+                                >
+                                  <Text
+                                    style={[
+                                      styles.cellText,
+                                      {
+                                        fontWeight: cell.isBold
+                                          ? "bold"
+                                          : "normal",
+                                      },
+                                      cell.alignment === "center" &&
+                                        styles.cellTextCenter,
+                                      cell.alignment === "right" &&
+                                        styles.cellTextRight,
+                                    ]}
+                                  >
+                                    {cell.text}
+                                  </Text>
                                 </View>
                               ))}
                             </View>
