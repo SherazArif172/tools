@@ -207,7 +207,7 @@ const pdfTools = [
     color: "bg-green-100",
     iconColor: "text-green-500",
     icon: <FileSpreadsheet className="h-6 w-6" />,
-    path: "/", // Set path to "/"
+    path: "/excel-to-pdf", // Set path to "/"
   },
   {
     id: "pdf-page-number",

@@ -86,6 +86,40 @@ export default function ExcelToPdf() {
   const [isConverting, setIsConverting] = useState(false);
   const [excelData, setExcelData] = useState(null);
   const [showPreview, setShowPreview] = useState(false);
+  const [excelPreview, setExcelPreview] = useState(null);
+
+  const loadExcelPreview = async (file) => {
+    try {
+      const workbook = new ExcelJS.Workbook();
+      const arrayBuffer = await file.arrayBuffer();
+      await workbook.xlsx.load(arrayBuffer);
+
+      const worksheet = workbook.worksheets[0];
+      if (!worksheet) {
+        throw new Error("No worksheet found in the Excel file");
+      }
+
+      const previewData = [];
+      const maxPreviewRows = 10; // Show first 10 rows in preview
+      let rowCount = 0;
+
+      worksheet.eachRow((row, rowNumber) => {
+        if (rowCount < maxPreviewRows) {
+          const rowData = [];
+          row.eachCell((cell) => {
+            rowData.push(cell.text || "");
+          });
+          previewData.push(rowData);
+          rowCount++;
+        }
+      });
+
+      setExcelPreview(previewData);
+    } catch (error) {
+      console.error("Error loading Excel preview:", error);
+      setError("Failed to load Excel preview");
+    }
+  };
 
   const { getRootProps, getInputProps, isDragActive } = useDropzone({
     accept: {
@@ -107,6 +141,7 @@ export default function ExcelToPdf() {
       setFile(acceptedFiles[0]);
       setExcelData(null);
       setShowPreview(false);
+      await loadExcelPreview(acceptedFiles[0]);
     },
     onDropRejected: (rejectedFiles) => {
       const errors = rejectedFiles.map((file) => {
@@ -402,47 +437,76 @@ export default function ExcelToPdf() {
             </div>
 
             {file && (
-              <div className="w-full bg-gray-50 rounded-lg p-4">
-                <div className="flex items-center justify-between">
-                  <div className="flex items-center gap-2">
-                    <FolderOpen className="h-5 w-5 text-gray-500" />
-                    <span className="text-sm font-medium text-gray-700 truncate">
-                      {file.name}
-                    </span>
+              <>
+                <div className="w-full bg-gray-50 rounded-lg p-4">
+                  <div className="flex items-center justify-between">
+                    <div className="flex items-center gap-2">
+                      <FolderOpen className="h-5 w-5 text-gray-500" />
+                      <span className="text-sm font-medium text-gray-700 truncate">
+                        {file.name}
+                      </span>
+                    </div>
+                    <button
+                      onClick={resetState}
+                      className="bg-red-500 text-white rounded-full p-1.5 hover:bg-red-600 transition-colors"
+                    >
+                      <X className="h-3 w-3" />
+                    </button>
                   </div>
-                  <button
-                    onClick={resetState}
-                    className="bg-red-500 text-white rounded-full p-1.5 hover:bg-red-600 transition-colors"
-                  >
-                    <X className="h-3 w-3" />
-                  </button>
                 </div>
-              </div>
-            )}
 
-            {file && !showPreview && (
-              <div className="flex gap-4">
-                <Button
-                  onClick={processExcelData}
-                  disabled={isConverting}
-                  className={`bg-[#1E90FF] hover:bg-[#1873CC] ${
-                    isConverting ? "opacity-50 cursor-not-allowed" : ""
-                  }`}
-                >
-                  {isConverting ? "Processing..." : "Convert to PDF"}
-                </Button>
-                <Button
-                  onClick={resetState}
-                  variant="outline"
-                  disabled={isConverting}
-                  className={`text-red-500 hover:text-red-600 hover:bg-red-50 ${
-                    isConverting ? "opacity-50 cursor-not-allowed" : ""
-                  }`}
-                >
-                  <RefreshCw className="mr-2 h-4 w-4" />
-                  Reset
-                </Button>
-              </div>
+                {excelPreview && !showPreview && (
+                  <div className="w-full overflow-x-auto">
+                    <div className="border rounded-lg">
+                      <table className="min-w-full divide-y divide-gray-200">
+                        <tbody className="bg-white divide-y divide-gray-200">
+                          {excelPreview.map((row, rowIndex) => (
+                            <tr key={rowIndex}>
+                              {row.map((cell, cellIndex) => (
+                                <td
+                                  key={cellIndex}
+                                  className={`px-4 py-2 whitespace-nowrap text-sm ${
+                                    rowIndex === 0
+                                      ? "font-medium bg-gray-50"
+                                      : "text-gray-500"
+                                  }`}
+                                >
+                                  {cell}
+                                </td>
+                              ))}
+                            </tr>
+                          ))}
+                        </tbody>
+                      </table>
+                    </div>
+                  </div>
+                )}
+
+                {!showPreview && (
+                  <div className="flex gap-4">
+                    <Button
+                      onClick={processExcelData}
+                      disabled={isConverting}
+                      className={`bg-[#1E90FF] hover:bg-[#1873CC] ${
+                        isConverting ? "opacity-50 cursor-not-allowed" : ""
+                      }`}
+                    >
+                      {isConverting ? "Processing..." : "Convert to PDF"}
+                    </Button>
+                    <Button
+                      onClick={resetState}
+                      variant="outline"
+                      disabled={isConverting}
+                      className={`text-red-500 hover:text-red-600 hover:bg-red-50 ${
+                        isConverting ? "opacity-50 cursor-not-allowed" : ""
+                      }`}
+                    >
+                      <RefreshCw className="mr-2 h-4 w-4" />
+                      Reset
+                    </Button>
+                  </div>
+                )}
+              </>
             )}
 
             {showPreview && excelData && (
