@@ -6,6 +6,7 @@ import { Input } from "@/components/ui/input";
 import { SearchIcon, ArrowRightIcon } from "lucide-react";
 import { TextGenerateEffect } from "@/components/TextGenerateEffect";
 import Link from "next/link";
+import { WordRotate } from "@/components/magicui/word-rotate";
 
 export default function HeroSection() {
   const [searchQuery, setSearchQuery] = useState("");
@@ -15,19 +16,42 @@ export default function HeroSection() {
     // Handle search functionality here
     console.log("Searching for:", searchQuery);
   };
-  const words = `Free tools to make everything simple, smooth, and effortless.`;
+
+  const words = [
+    { text: "Work Effortless", color: "bg-blue-800 dark:bg-blue-900" },
+    { text: "Creativity Flow", color: "bg-purple-800 dark:bg-purple-900" },
+    { text: "Ideas Happen", color: "bg-yellow-800 dark:bg-yellow-900" },
+    { text: "Tasks Magical", color: "bg-pink-800 dark:bg-pink-900" },
+    { text: "Files Smarter", color: "bg-green-800 dark:bg-green-900" },
+    { text: "Life Easier", color: "bg-orange-800 dark:bg-orange-900" },
+  ];
 
   return (
     <section className="w-full py-12 md:py-16 lg:py-20 m-auto max-w-7xl">
       <div className="container px-4 md:px-6">
         <div className="flex flex-col items-center space-y-4 text-center">
           <div className="space-y-2 max-w-[800px]">
-            <h1 className="text-3xl font-bold tracking-tighter sm:text-4xl md:text-5xl lg:text-6xl">
-              <TextGenerateEffect words={words} />
+            <h1 className="text-3xl font-bold tracking-tighter sm:text-4xl md:text-5xl flex flex-wrap justify-center items-center gap-2">
+              Your Shortcut to Simpler Days
+              <span className="inline-flex min-w-[200px] justify-center">
+                <WordRotate
+                  duration={3000}
+                  words={words.map((word) => (
+                    <span
+                      key={word.text}
+                      className={`inline-block px-2 py-4 rounded-md ${word.color} transition-colors `}
+                    >
+                      {word.text}
+                    </span>
+                  ))}
+                  className="inline-block"
+                />
+              </span>
             </h1>
             <p className="mx-auto max-w-[600px] text-gray-500 md:text-lg">
-              All the tools you need to work with PDFs, Excel, Word and more in
-              one place
+              Explore our collection of free tools for PDF editing, image
+              optimization, video conversion, AI-powered writing, file
+              management, and more -all designed to save you time and effort.
             </p>
           </div>
 
