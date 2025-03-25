@@ -7,6 +7,7 @@ import { SearchIcon, ArrowRightIcon } from "lucide-react";
 import { TextGenerateEffect } from "@/components/TextGenerateEffect";
 import Link from "next/link";
 import { WordRotate } from "@/components/magicui/word-rotate";
+import { TextAnimate } from "@/components/magicui/text-animate";
 
 export default function HeroSection() {
   const [searchQuery, setSearchQuery] = useState("");
@@ -32,7 +33,9 @@ export default function HeroSection() {
         <div className="flex flex-col items-center space-y-4 text-center">
           <div className="space-y-2 max-w-[800px]">
             <h1 className="text-3xl font-bold tracking-tighter sm:text-4xl md:text-5xl flex flex-wrap justify-center items-center gap-2">
-              Your Shortcut to Simpler Days
+              <TextAnimate animation="blurIn" as="p" duration={0.9}>
+                Your Shortcut to Simpler Days
+              </TextAnimate>
               <span className="inline-flex min-w-[200px] justify-center">
                 <WordRotate
                   duration={3000}

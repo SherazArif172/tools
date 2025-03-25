@@ -2,7 +2,7 @@
 
 import { useState, useEffect } from "react";
 import Link from "next/link";
-import { Moon, Sun } from "lucide-react";
+import { Moon, Sun, ChevronDown, Menu, X } from "lucide-react";
 
 import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
@@ -58,24 +58,11 @@ export default function Navbar() {
               </Link>
             </li>
             <li className="group relative">
-              <button className="flex items-center text-sm font-medium hover:text-primary">
+              <button className="flex items-center text-sm font-medium hover:text-primary py-1">
                 Features
-                <svg
-                  xmlns="http://www.w3.org/2000/svg"
-                  width="24"
-                  height="24"
-                  viewBox="0 0 24 24"
-                  fill="none"
-                  stroke="currentColor"
-                  strokeWidth="2"
-                  strokeLinecap="round"
-                  strokeLinejoin="round"
-                  className="ml-1 h-4 w-4"
-                >
-                  <path d="m6 9 6 6 6-6" />
-                </svg>
+                <ChevronDown className="ml-1 h-4 w-4" />
               </button>
-              <div className="absolute left-0 top-full z-10 mt-1 hidden w-48 rounded-md border bg-background py-1 shadow-lg group-hover:block">
+              <div className="absolute left-0 top-6 z-10 mt-1 hidden w-48 rounded-md border bg-background py-1 shadow-lg group-hover:block">
                 <Link
                   href="/features/analytics"
                   className="block px-4 py-2 text-sm hover:bg-muted"
@@ -111,24 +98,11 @@ export default function Navbar() {
               </Link>
             </li>
             <li className="group relative">
-              <button className="flex items-center text-sm font-medium hover:text-primary">
+              <button className="flex items-center text-sm font-medium hover:text-primary py-1">
                 About
-                <svg
-                  xmlns="http://www.w3.org/2000/svg"
-                  width="24"
-                  height="24"
-                  viewBox="0 0 24 24"
-                  fill="none"
-                  stroke="currentColor"
-                  strokeWidth="2"
-                  strokeLinecap="round"
-                  strokeLinejoin="round"
-                  className="ml-1 h-4 w-4"
-                >
-                  <path d="m6 9 6 6 6-6" />
-                </svg>
+                <ChevronDown className="ml-1 h-4 w-4" />
               </button>
-              <div className="absolute left-0 top-full z-10 mt-1 hidden w-48 rounded-md border bg-background py-1 shadow-lg group-hover:block">
+              <div className="absolute left-0 top-6 z-10 mt-1 hidden w-48 rounded-md border bg-background py-1 shadow-lg group-hover:block">
                 <Link
                   href="/about/company"
                   className="block px-4 py-2 text-sm hover:bg-muted"
@@ -192,24 +166,11 @@ export default function Navbar() {
               onClick={() => setMobileMenuOpen(!mobileMenuOpen)}
             >
               <span className="sr-only">Open main menu</span>
-              <svg
-                className="h-6 w-6"
-                fill="none"
-                viewBox="0 0 24 24"
-                stroke="currentColor"
-                aria-hidden="true"
-              >
-                <path
-                  strokeLinecap="round"
-                  strokeLinejoin="round"
-                  strokeWidth={2}
-                  d={
-                    mobileMenuOpen
-                      ? "M6 18L18 6M6 6l12 12"
-                      : "M4 6h16M4 12h16M4 18h16"
-                  }
-                />
-              </svg>
+              {mobileMenuOpen ? (
+                <X className="h-6 w-6" />
+              ) : (
+                <Menu className="h-6 w-6" />
+              )}
             </button>
           </div>
         </div>
@@ -230,20 +191,7 @@ export default function Navbar() {
               <Collapsible className="w-full">
                 <CollapsibleTrigger className="flex w-full items-center justify-center rounded-md px-3 py-2 text-base font-medium hover:bg-gray-100 hover:text-primary">
                   Features
-                  <svg
-                    xmlns="http://www.w3.org/2000/svg"
-                    width="24"
-                    height="24"
-                    viewBox="0 0 24 24"
-                    fill="none"
-                    stroke="currentColor"
-                    strokeWidth="2"
-                    strokeLinecap="round"
-                    strokeLinejoin="round"
-                    className="ml-1 h-4 w-4"
-                  >
-                    <path d="m6 9 6 6 6-6" />
-                  </svg>
+                  <ChevronDown className="ml-1 h-4 w-4" />
                 </CollapsibleTrigger>
                 <CollapsibleContent className="space-y-1">
                   <Link
@@ -285,20 +233,7 @@ export default function Navbar() {
               <Collapsible className="w-full">
                 <CollapsibleTrigger className="flex w-full items-center justify-center rounded-md px-3 py-2 text-base font-medium hover:bg-gray-100 hover:text-primary">
                   About
-                  <svg
-                    xmlns="http://www.w3.org/2000/svg"
-                    width="24"
-                    height="24"
-                    viewBox="0 0 24 24"
-                    fill="none"
-                    stroke="currentColor"
-                    strokeWidth="2"
-                    strokeLinecap="round"
-                    strokeLinejoin="round"
-                    className="ml-1 h-4 w-4"
-                  >
-                    <path d="m6 9 6 6 6-6" />
-                  </svg>
+                  <ChevronDown className="ml-1 h-4 w-4" />
                 </CollapsibleTrigger>
                 <CollapsibleContent className="space-y-1">
                   <Link
