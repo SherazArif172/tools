@@ -2,7 +2,29 @@
 
 import { useState, useEffect, useRef } from "react";
 import Link from "next/link";
-import { Moon, Sun, ChevronDown, Menu, X, Search, Grid3x3 } from "lucide-react";
+import {
+  Moon,
+  Sun,
+  ChevronDown,
+  Menu,
+  X,
+  Search,
+  Grid3x3,
+  FileOutput,
+  RefreshCw,
+  FileText,
+  Layers,
+  Edit,
+  RotateCw,
+  Type,
+  FileSpreadsheet,
+  Image,
+  Scissors,
+  Video,
+  Sparkles,
+  MessageSquare,
+  File,
+} from "lucide-react";
 import { useRouter } from "next/navigation";
 
 import { Button } from "@/components/ui/button";
@@ -21,27 +43,136 @@ export default function Navbar() {
   const searchRef = useRef(null);
   const router = useRouter();
 
-  const toolRoutes = {
+  const toolCategories = {
     "PDF Tools": {
-      category: "PDF Tools",
-      tools: {
-        "pdf to excel": "/pdf-to-excel",
-        "excel to pdf": "/excel-to-pdf",
-        "word to pdf": "/word-to-pdf",
-        "pdf to word": "/pdf-to-word",
-        "merge pdf": "/merge-pdf",
-        "split pdf": "/split-pdf",
-        "compress pdf": "/compress-pdf",
-        "pdf tools": "/pdf",
-      },
+      icon: <FileText className="h-4 w-4" />,
+      tools: [
+        {
+          name: "Compress PDF",
+          path: "/compress-pdf",
+          icon: <FileOutput className="h-4 w-4" />,
+        },
+        {
+          name: "Merge PDF",
+          path: "/merge-pdf",
+          icon: <Layers className="h-4 w-4" />,
+        },
+        {
+          name: "Split PDF",
+          path: "/split-pdf",
+          icon: <Scissors className="h-4 w-4" />,
+        },
+        {
+          name: "PDF to Word",
+          path: "/pdf-to-word",
+          icon: <FileText className="h-4 w-4" />,
+        },
+        {
+          name: "Word to PDF",
+          path: "/word-to-pdf",
+          icon: <FileText className="h-4 w-4" />,
+        },
+        {
+          name: "PDF to Excel",
+          path: "/pdf-to-excel",
+          icon: <FileSpreadsheet className="h-4 w-4" />,
+        },
+        {
+          name: "Excel to PDF",
+          path: "/excel-to-pdf",
+          icon: <FileSpreadsheet className="h-4 w-4" />,
+        },
+      ],
     },
     "Image Tools": {
-      category: "Image Tools",
-      tools: {
-        "image to pdf": "/image-to-pdf",
-        "jpg to pdf": "/jpg-to-pdf",
-        "png to pdf": "/png-to-pdf",
-      },
+      icon: <Image className="h-4 w-4" />,
+      tools: [
+        {
+          name: "JPG to PDF",
+          path: "/jpg-to-pdf",
+          icon: <Image className="h-4 w-4" />,
+        },
+        {
+          name: "PNG to PDF",
+          path: "/png-to-pdf",
+          icon: <Image className="h-4 w-4" />,
+        },
+        {
+          name: "Image to PDF",
+          path: "/image-to-pdf",
+          icon: <Image className="h-4 w-4" />,
+        },
+        {
+          name: "PDF to JPG",
+          path: "/pdf-to-jpg",
+          icon: <Image className="h-4 w-4" />,
+        },
+        {
+          name: "Compress Image",
+          path: "/compress-image",
+          icon: <FileOutput className="h-4 w-4" />,
+        },
+      ],
+    },
+    "Video Tools": {
+      icon: <Video className="h-4 w-4" />,
+      tools: [
+        {
+          name: "Video to GIF",
+          path: "/video-to-gif",
+          icon: <Video className="h-4 w-4" />,
+        },
+        {
+          name: "Compress Video",
+          path: "/compress-video",
+          icon: <FileOutput className="h-4 w-4" />,
+        },
+        {
+          name: "Trim Video",
+          path: "/trim-video",
+          icon: <Scissors className="h-4 w-4" />,
+        },
+      ],
+    },
+    "AI Tools": {
+      icon: <Sparkles className="h-4 w-4" />,
+      tools: [
+        {
+          name: "AI Chat",
+          path: "/ai-chat",
+          icon: <MessageSquare className="h-4 w-4" />,
+        },
+        {
+          name: "Text Generator",
+          path: "/text-generator",
+          icon: <Type className="h-4 w-4" />,
+        },
+        {
+          name: "Image Generator",
+          path: "/image-generator",
+          icon: <Image className="h-4 w-4" />,
+        },
+      ],
+    },
+    "File Tools": {
+      icon: <File className="h-4 w-4" />,
+      tools: [
+        {
+          name: "File Converter",
+          path: "/file-converter",
+          icon: <RefreshCw className="h-4 w-4" />,
+        },
+        {
+          name: "File Compressor",
+          path: "/file-compressor",
+          icon: <FileOutput className="h-4 w-4" />,
+        },
+        {
+          name: "File Merger",
+          path: "/file-merger",
+          icon: <Layers className="h-4 w-4" />,
+        },
+      ],
     },
   };
 
@@ -84,13 +215,13 @@ export default function Navbar() {
     setShowResults(query.length > 0);
   };
 
-  const filteredTools = Object.entries(toolRoutes).reduce(
+  const filteredTools = Object.entries(toolCategories).reduce(
     (acc, [category, data]) => {
       const matchingTools = Object.entries(data.tools).filter(([toolName]) =>
         toolName.toLowerCase().includes(searchQuery.toLowerCase())
       );
       if (matchingTools.length > 0) {
-        acc.push({ category: data.category, tools: matchingTools });
+        acc.push({ category: category, tools: matchingTools });
       }
       return acc;
     },
@@ -112,7 +243,7 @@ export default function Navbar() {
             href="/"
             className="text-xl font-bold bg-gradient-to-r from-indigo-600 to-violet-600 bg-clip-text text-transparent hover:from-indigo-500 hover:to-violet-500 transition-colors dark:text-white"
           >
-            Tools
+            ZASKTools
           </Link>
         </div>
 
@@ -127,14 +258,53 @@ export default function Navbar() {
                 Home
               </Link>
             </li>
-            <li>
-              <Link
-                href="/tools"
-                className="text-sm font-medium text-gray-800 hover:text-indigo-600 dark:text-gray-200 dark:hover:text-primary inline-flex items-center gap-1.5 transition-colors"
-              >
+            <li className="relative group">
+              <button className="text-sm font-medium text-gray-800 hover:text-indigo-600 dark:text-gray-200 dark:hover:text-primary inline-flex items-center gap-1.5 transition-colors">
                 <Grid3x3 className="h-4 w-4" />
                 Tools
-              </Link>
+                <ChevronDown className="h-4 w-4 rotate-180 transform transition-transform duration-200 group-hover:rotate-0" />
+              </button>
+
+              {/* Tools Dropdown */}
+              <div className="absolute top-full left-0 mt-2 w-[1000px] bg-gradient-to-r from-indigo-200/90 via-rose-100/90 to-teal-100/90 backdrop-blur-sm dark:from-slate-900/95 dark:via-slate-800/95 dark:to-slate-900/95 rounded-lg shadow-xl opacity-0 invisible group-hover:opacity-100 group-hover:visible transition-all duration-200 border border-gray-200/10 -translate-x-1/3">
+                <div className="p-4">
+                  <div className="grid grid-cols-5 gap-x-6">
+                    {Object.entries(toolCategories).map(
+                      ([category, { icon, tools }]) => (
+                        <div key={category} className="min-w-[180px]">
+                          {/* Category Header */}
+                          <div className="flex items-center gap-2 pb-3 mb-3 border-b border-gray-200/10">
+                            <span className="text-gray-400 dark:text-gray-500">
+                              {icon}
+                            </span>
+                            <span className="text-sm font-medium text-gray-900 dark:text-gray-100 whitespace-nowrap">
+                              {category}
+                            </span>
+                          </div>
+
+                          {/* Tools List */}
+                          <div className="space-y-1">
+                            {tools.map((tool) => (
+                              <Link
+                                key={tool.path}
+                                href={tool.path}
+                                className="flex items-center gap-2 px-2 py-1.5 text-sm text-gray-600 dark:text-gray-400 hover:bg-white/70 dark:hover:bg-slate-800/70 rounded-md group/tool whitespace-nowrap"
+                              >
+                                <span className="text-gray-400 dark:text-gray-500 group-hover/tool:text-indigo-500">
+                                  {tool.icon}
+                                </span>
+                                <span className="group-hover/tool:text-indigo-600 dark:group-hover/tool:text-indigo-400">
+                                  {tool.name}
+                                </span>
+                              </Link>
+                            ))}
+                          </div>
+                        </div>
+                      )
+                    )}
+                  </div>
+                </div>
+              </div>
             </li>
           </ul>
         </div>

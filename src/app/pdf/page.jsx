@@ -384,42 +384,30 @@ export default function PdfToolsComplete() {
       {/* Background Design */}
       <div className="absolute inset-0 -z-10">
         {/* Base gradient */}
-        <div className="absolute inset-0 bg-gradient-to-br from-indigo-50 via-purple-50 to-pink-50 dark:from-slate-900 dark:via-slate-800 dark:to-slate-900" />
+        <div className="absolute inset-0 bg-gradient-to-br from-gray-50 via-gray-100 to-gray-50 dark:from-[#0F172A] dark:via-[#131B2E] dark:to-[#0F172A]" />
 
-        {/* Animated grid pattern */}
-        <div className="absolute inset-0 opacity-[0.15] dark:opacity-[0.1]">
-          <div className="absolute inset-0 bg-[radial-gradient(circle_at_50%_50%,rgba(99,102,241,0.1)_1px,transparent_1px)] dark:bg-[radial-gradient(circle_at_50%_50%,rgba(255,255,255,0.1)_1px,transparent_1px)] bg-[size:20px_20px]" />
-          <div className="absolute inset-0 bg-[linear-gradient(45deg,rgba(99,102,241,0.05)_1px,transparent_1px)] dark:bg-[linear-gradient(45deg,rgba(255,255,255,0.05)_1px,transparent_1px)] bg-[size:20px_20px]" />
-        </div>
+        {/* Pattern overlay */}
+        <div className="absolute inset-0 opacity-30 bg-grid-gray-200/50 dark:bg-grid-slate-800/30" />
 
         {/* Floating elements */}
-        <div className="absolute inset-0 overflow-hidden">
-          {[...Array(20)].map((_, i) => (
-            <div
-              key={i}
-              className="absolute w-1 h-1 bg-indigo-400/30 dark:bg-indigo-400/20 rounded-full animate-particle"
-              style={{
-                left: `${Math.random() * 100}%`,
-                top: `${Math.random() * 100}%`,
-                animationDelay: `${Math.random() * 5}s`,
-              }}
-            />
-          ))}
-        </div>
+        {[...Array(15)].map((_, i) => (
+          <div
+            key={i}
+            className="absolute w-2 h-2 bg-blue-500/20 dark:bg-purple-500/20 rounded-full animate-float"
+            style={{
+              top: `${Math.random() * 100}%`,
+              left: `${Math.random() * 100}%`,
+              animationDelay: `${Math.random() * 5}s`,
+            }}
+          />
+        ))}
 
         {/* Glowing orbs */}
-        <div className="absolute inset-0">
-          <div className="absolute top-1/4 left-1/4 w-96 h-96 bg-indigo-300/30 dark:bg-indigo-500/20 rounded-full mix-blend-multiply dark:mix-blend-screen filter blur-3xl animate-pulse" />
-          <div className="absolute bottom-1/4 right-1/4 w-96 h-96 bg-purple-300/30 dark:bg-purple-500/20 rounded-full mix-blend-multiply dark:mix-blend-screen filter blur-3xl animate-pulse animation-delay-2000" />
-          <div className="absolute top-3/4 left-3/4 w-64 h-64 bg-pink-300/30 dark:bg-pink-500/20 rounded-full mix-blend-multiply dark:mix-blend-screen filter blur-3xl animate-pulse animation-delay-3000" />
-        </div>
+        <div className="absolute top-1/4 -left-20 w-72 h-72 bg-blue-500/20 dark:bg-purple-500/30 rounded-full blur-3xl animate-pulse" />
+        <div className="absolute bottom-1/4 -right-20 w-72 h-72 bg-cyan-500/20 dark:bg-indigo-500/30 rounded-full blur-3xl animate-pulse" />
 
         {/* Shimmer effect */}
-        <div className="absolute inset-0 bg-gradient-to-r from-transparent via-indigo-100/50 to-transparent dark:via-white/5 animate-shimmer" />
-
-        {/* Decorative elements */}
-        <div className="absolute top-0 right-0 w-32 h-32 bg-gradient-to-br from-indigo-500/20 to-purple-500/20 rounded-full filter blur-3xl" />
-        <div className="absolute bottom-0 left-0 w-32 h-32 bg-gradient-to-tr from-pink-500/20 to-rose-500/20 rounded-full filter blur-3xl" />
+        <div className="absolute inset-0 bg-gradient-to-tr from-transparent via-blue-500/5 dark:via-purple-500/10 to-transparent opacity-0 animate-shimmer" />
       </div>
 
       {/* Content */}
@@ -436,7 +424,7 @@ export default function PdfToolsComplete() {
             <p className="text-sm text-gray-600 dark:text-gray-300">
               Found {filteredTools.length}{" "}
               {filteredTools.length === 1 ? "tool" : "tools"} matching "
-              <span className="font-medium text-purple-600 dark:text-purple-400">
+              <span className="font-medium text-blue-600 dark:text-purple-400">
                 {debouncedSearchTerm}
               </span>
               "
@@ -452,43 +440,39 @@ export default function PdfToolsComplete() {
               initial={{ opacity: 0, y: 20 }}
               animate={{ opacity: 1, y: 0 }}
               transition={{ duration: 0.3 }}
-              className="group relative overflow-hidden rounded-xl bg-gradient-to-br from-white/80 to-gray-50/80 dark:from-gray-800/80 dark:to-gray-900/80 p-1 transition-all duration-300 hover:scale-[1.02] hover:shadow-2xl backdrop-blur-sm"
+              className="group relative"
             >
-              {/* Gradient border */}
-              <div className="absolute inset-0 bg-gradient-to-r from-purple-500 via-pink-500 to-red-500 opacity-0 group-hover:opacity-100 transition-opacity duration-300" />
+              {/* Glow effect */}
+              <div className="absolute -inset-0.5 bg-gradient-to-r from-blue-600 via-cyan-500 to-blue-600 dark:from-cyan-600 dark:via-blue-500 dark:to-purple-600 rounded-xl blur opacity-0 group-hover:opacity-75 transition-all duration-700 animate-gradient-xy group-hover:animate-gradient-xy" />
 
-              {/* Card content */}
-              <div className="relative h-full bg-white/90 dark:bg-gray-800/90 rounded-lg p-6 transition-all duration-300 group-hover:bg-opacity-90 backdrop-blur-sm">
-                <Link href={tool.path} className="block h-full">
-                  {/* Icon container with gradient background */}
-                  <div
-                    className={`relative w-14 h-14 rounded-xl mb-4 overflow-hidden ${tool.color}`}
-                  >
-                    <div className="absolute inset-0 bg-gradient-to-br from-white/20 to-transparent" />
-                    <div className="absolute inset-0 flex items-center justify-center">
-                      {tool.icon}
+              {/* Card */}
+              <div className="relative flex flex-col h-full rounded-xl bg-white/80 dark:bg-[#1C2537]/50 backdrop-blur-xl border border-gray-200/50 dark:border-gray-800/50 p-6 transition-all duration-700 group-hover:bg-white/90 dark:group-hover:bg-[#1C2537]/70 group-hover:border-blue-500/50 dark:group-hover:border-cyan-500/50 hover:shadow-[0_0_2rem_-0.5rem_#3b82f6] dark:hover:shadow-[0_0_2rem_-0.5rem_#fff8] group-hover:scale-[1.02]">
+                <Link href={tool.path} className="flex flex-col h-full">
+                  {/* Icon container with enhanced animations */}
+                  <div className="relative w-16 h-16 mb-6 transform group-hover:scale-110 transition-all duration-700">
+                    <div className="absolute inset-0 bg-gradient-to-br from-blue-600/30 via-cyan-500/30 to-blue-600/30 dark:from-cyan-600/30 dark:via-blue-500/30 dark:to-purple-600/30 rounded-xl transform rotate-6 group-hover:rotate-180 transition-all duration-1000 ease-out animate-gradient-xy" />
+                    <div className="relative flex items-center justify-center w-full h-full bg-gray-100/80 dark:bg-gray-800/50 rounded-xl group-hover:bg-gray-100/90 dark:group-hover:bg-gray-800/90 transition-all duration-700">
+                      <div className="text-blue-600 dark:text-cyan-400 group-hover:text-blue-500 dark:group-hover:text-cyan-300 transform group-hover:scale-125 group-hover:rotate-12 transition-all duration-700">
+                        {tool.icon}
+                      </div>
                     </div>
                   </div>
 
-                  {/* Tool title with gradient text */}
-                  <h3 className="font-semibold text-lg mb-2 bg-gradient-to-r from-gray-900 to-gray-700 dark:from-white dark:to-gray-300 bg-clip-text text-transparent">
-                    {tool.title}
-                  </h3>
+                  {/* Content with enhanced animations */}
+                  <div className="flex-grow">
+                    <h3 className="text-xl font-semibold bg-gradient-to-r from-gray-900 via-blue-800 to-gray-900 dark:from-gray-100 dark:via-cyan-200 dark:to-gray-300 bg-clip-text text-transparent group-hover:from-blue-600 group-hover:via-cyan-600 group-hover:to-blue-600 dark:group-hover:from-cyan-400 dark:group-hover:via-blue-400 dark:group-hover:to-purple-400 transition-all duration-700 mb-2 transform group-hover:translate-x-2">
+                      {tool.title}
+                    </h3>
 
-                  {/* Category badge */}
-                  <p className="text-xs font-medium mb-3 bg-gradient-to-r from-blue-500 to-cyan-500 text-white px-2 py-1 rounded-full inline-block">
-                    PDF Tools
-                  </p>
+                    <p className="text-sm text-gray-600 dark:text-gray-400 group-hover:text-blue-600 dark:group-hover:text-cyan-300 transition-all duration-700 transform group-hover:translate-x-2">
+                      {tool.description}
+                    </p>
+                  </div>
 
-                  {/* Description */}
-                  <p className="text-sm text-gray-600 dark:text-gray-300 mb-4">
-                    {tool.description}
-                  </p>
-
-                  {/* Hover arrow */}
-                  <div className="absolute bottom-4 right-4 transform translate-x-2 opacity-0 group-hover:translate-x-0 group-hover:opacity-100 transition-all duration-300">
+                  {/* Footer with enhanced arrow animation */}
+                  <div className="flex items-center justify-end mt-auto pt-4 border-t border-gray-200/50 dark:border-gray-800/50 group-hover:border-blue-500/30 dark:group-hover:border-cyan-500/30 transition-all duration-700">
                     <svg
-                      className="w-6 h-6 text-gray-400 group-hover:text-blue-500"
+                      className="w-5 h-5 text-gray-400 dark:text-gray-500 group-hover:text-blue-500 dark:group-hover:text-cyan-400 transform translate-x-0 group-hover:translate-x-3 transition-all duration-700 ease-out"
                       fill="none"
                       stroke="currentColor"
                       viewBox="0 0 24 24"
@@ -511,9 +495,9 @@ export default function PdfToolsComplete() {
               animate={{ opacity: 1 }}
               className="col-span-full text-center py-8"
             >
-              <p className="text-gray-500 dark:text-gray-400 text-lg">
+              <p className="text-gray-600 dark:text-gray-400 text-lg">
                 No tools found matching "
-                <span className="font-medium text-purple-600 dark:text-purple-400">
+                <span className="font-medium text-blue-600 dark:text-purple-400">
                   {debouncedSearchTerm}
                 </span>
                 "

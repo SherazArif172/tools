@@ -66,42 +66,6 @@ export default function ToolsSection() {
 
   return (
     <section className="relative w-full py-12 md:py-16 lg:py-20 overflow-hidden">
-      {/* Background design */}
-      <div className="absolute inset-0 -z-10">
-        {/* Base gradient */}
-        <div className="absolute inset-0 bg-gradient-to-br from-teal-50 via-rose-50 to-indigo-50 dark:from-slate-900 dark:via-slate-800 dark:to-slate-900" />
-
-        {/* Subtle pattern overlay */}
-        <div className="absolute inset-0 opacity-[0.15] dark:opacity-[0.1]">
-          <div className="absolute inset-0 bg-[radial-gradient(circle_at_50%_50%,rgba(20,184,166,0.1)_1px,transparent_1px)] dark:bg-[radial-gradient(circle_at_50%_50%,rgba(255,255,255,0.1)_1px,transparent_1px)] bg-[size:20px_20px]" />
-          <div className="absolute inset-0 bg-[linear-gradient(45deg,rgba(20,184,166,0.05)_1px,transparent_1px)] dark:bg-[linear-gradient(45deg,rgba(255,255,255,0.05)_1px,transparent_1px)] bg-[size:20px_20px]" />
-        </div>
-
-        {/* Floating elements */}
-        <div className="absolute inset-0 overflow-hidden">
-          {[...Array(15)].map((_, i) => (
-            <div
-              key={i}
-              className="absolute w-1 h-1 bg-teal-400/30 dark:bg-teal-400/20 rounded-full animate-particle"
-              style={{
-                left: `${Math.random() * 100}%`,
-                top: `${Math.random() * 100}%`,
-                animationDelay: `${Math.random() * 5}s`,
-              }}
-            />
-          ))}
-        </div>
-
-        {/* Glowing orbs */}
-        <div className="absolute inset-0">
-          <div className="absolute top-1/4 left-1/4 w-96 h-96 bg-teal-300/30 dark:bg-teal-500/20 rounded-full mix-blend-multiply dark:mix-blend-screen filter blur-3xl animate-pulse" />
-          <div className="absolute bottom-1/4 right-1/4 w-96 h-96 bg-rose-300/30 dark:bg-rose-500/20 rounded-full mix-blend-multiply dark:mix-blend-screen filter blur-3xl animate-pulse animation-delay-2000" />
-        </div>
-
-        {/* Shimmer effect */}
-        <div className="absolute inset-0 bg-gradient-to-r from-transparent via-teal-100/50 to-transparent dark:via-white/5 animate-shimmer" />
-      </div>
-
       <div className="container px-4 md:px-6 relative z-10">
         <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-5 gap-4">
           {tools.map((tool, index) => (
