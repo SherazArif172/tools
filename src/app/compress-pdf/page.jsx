@@ -14,6 +14,8 @@ import {
   Shrink,
 } from "lucide-react";
 import { PDFDocument } from "pdf-lib";
+import { motion } from "framer-motion";
+import Background from "@/app/_components/Background";
 
 export default function CompressPdf() {
   const [pdf, setPdf] = useState(null);
@@ -181,183 +183,239 @@ export default function CompressPdf() {
   };
 
   return (
-    <div className="w-full min-h-screen overflow-hidden relative bg-background mb-6">
-      <div className="flex flex-col justify-center items-center pt-16 sm:pt-24 md:pt-32 px-4">
-        <h1 className="text-3xl sm:text-4xl md:text-5xl text-foreground font-bold mb-2 sm:mb-4 text-center">
-          Compress PDF Files
-        </h1>
-        <p className="text-gray-600 text-base sm:text-lg md:text-xl mb-8 sm:mb-12 text-center">
-          Reduce the size of your PDF files while maintaining quality
-        </p>
+    <div className="w-full min-h-screen overflow-hidden relative">
+      <Background />
+      <div className="relative z-10">
+        <div className="flex flex-col justify-center items-center pt-16 sm:pt-24 md:pt-32 px-4">
+          <motion.h1
+            initial={{ opacity: 0, y: 20 }}
+            animate={{ opacity: 1, y: 0 }}
+            transition={{ duration: 0.8 }}
+            className="text-4xl sm:text-5xl md:text-6xl font-bold mb-4 text-center bg-clip-text text-transparent bg-gradient-to-r from-blue-600 via-purple-600 to-pink-600 dark:from-blue-400 dark:via-purple-400 dark:to-pink-400"
+          >
+            Compress PDF Files
+          </motion.h1>
+          <motion.p
+            initial={{ opacity: 0, y: 20 }}
+            animate={{ opacity: 1, y: 0 }}
+            transition={{ duration: 0.8, delay: 0.2 }}
+            className="text-lg sm:text-xl text-gray-600 dark:text-gray-300 mb-8 sm:mb-12 text-center"
+          >
+            Reduce the size of your PDF files while maintaining quality
+          </motion.p>
 
-        <Card className="w-full max-w-xl p-4 sm:p-6">
-          <div className="flex flex-col items-center justify-center space-y-4 sm:space-y-6">
-            <div className="flex flex-col sm:flex-row gap-4 w-full max-w-md">
-              <Button
-                onClick={() =>
-                  document.querySelector('input[type="file"]').click()
-                }
-                variant="outline"
-                className="bg-background border-[#1E90FF] text-[#1E90FF] hover:bg-[#1E90FF] hover:text-white h-12 rounded-lg px-4 sm:px-6 font-medium w-full"
-              >
-                <FolderOpen className="mr-2 h-5 w-5" />
-                Upload PDF File
-              </Button>
-
-              <Button
-                variant="outline"
-                className="bg-background border-[#1E90FF] text-[#1E90FF] hover:bg-[#1E90FF] hover:text-white h-12 rounded-lg px-4 sm:px-6 font-medium w-full sm:w-auto"
-              >
-                <FolderOpen className="mr-2 h-5 w-5" />
-                My Files
-              </Button>
-            </div>
-
-            {error && (
-              <div className="w-full bg-red-50 text-red-500 p-3 rounded-lg flex items-center gap-2">
-                <AlertCircle className="h-5 w-5" />
-                <p className="text-sm">{error}</p>
-              </div>
-            )}
-
-            <div
-              {...getRootProps()}
-              className={`w-full border-2 border-dashed rounded-lg p-4 sm:p-8 text-center cursor-pointer transition-colors
-                ${
-                  isDragActive
-                    ? "border-[#1E90FF] bg-blue-50"
-                    : "border-gray-300 hover:border-[#1E90FF]"
-                }
-                ${error ? "border-red-300" : ""}`}
-            >
-              <input {...getInputProps()} />
-              <p className="text-gray-500 text-lg">
-                {isDragActive
-                  ? "Drop the PDF file here"
-                  : "or Drag PDF file here"}
-              </p>
-              <p className="text-sm text-gray-400 mt-2">
-                Only PDF files are supported (max 10MB)
-              </p>
-            </div>
-
-            {pdf && (
-              <div className="w-full">
-                <div className="bg-gray-50 rounded-lg p-4 flex flex-col gap-3">
-                  <div className="flex items-center justify-between">
-                    <div className="flex items-center gap-2">
-                      <FolderOpen className="h-5 w-5 text-gray-500" />
-                      <span className="text-sm font-medium text-gray-700 truncate">
-                        {pdf.name}
-                      </span>
-                    </div>
-                    <button
-                      onClick={resetState}
-                      className="bg-red-500 text-white rounded-full p-1.5 hover:bg-red-600 transition-colors"
-                    >
-                      <X className="h-3 w-3" />
-                    </button>
-                  </div>
-                  {pdf.preview && (
-                    <div className="relative w-full h-[200px] bg-white rounded-lg overflow-hidden border border-gray-200">
-                      <iframe
-                        src={pdf.preview}
-                        className="w-full h-full"
-                        title={`Preview of ${pdf.name}`}
-                      />
-                    </div>
-                  )}
-                  <div className="flex flex-col gap-4 mt-2">
-                    <div>
-                      <label className="text-sm font-medium text-gray-700 mb-1 block">
-                        Compression Level
-                      </label>
-                      <div className="flex items-center gap-4">
-                        <Input
-                          type="range"
-                          min="0.1"
-                          max="1"
-                          step="0.05"
-                          value={compressionLevel}
-                          onChange={(e) =>
-                            setCompressionLevel(parseFloat(e.target.value))
-                          }
-                          className="flex-1"
-                        />
-                        <span className="text-sm text-gray-500 min-w-[60px]">
-                          {Math.round(compressionLevel * 100)}%
-                        </span>
-                      </div>
-                      <div className="flex justify-between text-xs text-gray-500 mt-1">
-                        <span>Maximum compression</span>
-                        <span>Original quality</span>
-                      </div>
-                    </div>
-                    <div className="flex flex-col gap-2">
-                      <div className="flex justify-between items-center text-sm">
-                        <span className="text-gray-500">Original size:</span>
-                        <span className="font-medium">
-                          {formatFileSize(pdf.originalSize)}
-                        </span>
-                      </div>
-                      <div className="flex justify-between items-center text-sm">
-                        <span className="text-gray-500">Estimated size:</span>
-                        <span className="font-medium text-[#1E90FF]">
-                          {formatFileSize(pdf.originalSize * compressionLevel)}
-                        </span>
-                      </div>
-                      <div className="flex justify-between items-center text-sm">
-                        <span className="text-gray-500">Size reduction:</span>
-                        <span className="font-medium text-green-500">
-                          {Math.round((1 - compressionLevel) * 100)}%
-                        </span>
-                      </div>
-                    </div>
-                  </div>
-                </div>
-
-                {isCompressing && (
-                  <div className="mt-4">
-                    <div className="w-full bg-gray-200 rounded-full h-2.5">
-                      <div
-                        className="bg-[#0095FF] h-2.5 rounded-full transition-all duration-300"
-                        style={{ width: `${progress}%` }}
-                      ></div>
-                    </div>
-                    <p className="text-center text-sm text-gray-600 mt-2">
-                      Compressing PDF... {Math.round(progress)}%
-                    </p>
-                  </div>
-                )}
-
-                <div className="mt-4 flex justify-center gap-4">
+          <motion.div
+            initial={{ opacity: 0, y: 20 }}
+            animate={{ opacity: 1, y: 0 }}
+            transition={{ duration: 0.8, delay: 0.4 }}
+            className="w-full max-w-2xl"
+          >
+            <Card className="w-full p-6 sm:p-8 backdrop-blur-sm bg-white/80 dark:bg-gray-800/80 border border-gray-200/50 dark:border-gray-700/50 shadow-xl">
+              <div className="flex flex-col items-center justify-center space-y-6">
+                <div className="flex flex-col sm:flex-row gap-4 w-full">
                   <Button
-                    onClick={compressPdf}
-                    disabled={isCompressing}
-                    className={`bg-[#1E90FF] hover:bg-[#1873CC] ${
-                      isCompressing ? "opacity-50 cursor-not-allowed" : ""
-                    }`}
+                    onClick={() =>
+                      document.querySelector('input[type="file"]').click()
+                    }
+                    className="group relative overflow-hidden bg-gradient-to-r from-blue-600 to-purple-600 hover:from-blue-700 hover:to-purple-700 text-white h-12 rounded-lg px-6 font-medium w-full transition-all duration-300"
                   >
-                    <Shrink className="mr-2 h-4 w-4" />
-                    {isCompressing ? "Compressing..." : "Compress PDF"}
+                    <span className="relative z-10 flex items-center justify-center">
+                      <FolderOpen className="mr-2 h-5 w-5" />
+                      Upload PDF File
+                    </span>
+                    <div className="absolute inset-0 bg-gradient-to-r from-purple-600 to-pink-600 opacity-0 group-hover:opacity-100 transition-opacity duration-300" />
+                  </Button>
+
+                  <Button className="group relative overflow-hidden bg-gradient-to-r from-purple-600 to-pink-600 hover:from-purple-700 hover:to-pink-700 text-white h-12 rounded-lg px-6 font-medium w-full sm:w-auto transition-all duration-300">
+                    <span className="relative z-10 flex items-center justify-center">
+                      <FolderOpen className="mr-2 h-5 w-5" />
+                      My Files
+                    </span>
+                    <div className="absolute inset-0 bg-gradient-to-r from-pink-600 to-blue-600 opacity-0 group-hover:opacity-100 transition-opacity duration-300" />
                   </Button>
                 </div>
-              </div>
-            )}
-          </div>
 
-          {compressedPdfUrl && (
-            <div className="mt-6 flex justify-center gap-4">
-              <Button
-                onClick={downloadCompressedPdf}
-                className="bg-green-500 hover:bg-green-600"
-              >
-                <Download className="mr-2 h-4 w-4" />
-                Download Compressed PDF
-              </Button>
-            </div>
-          )}
-        </Card>
+                {error && (
+                  <motion.div
+                    initial={{ opacity: 0, y: 10 }}
+                    animate={{ opacity: 1, y: 0 }}
+                    className="w-full bg-red-50 dark:bg-red-900/20 text-red-500 dark:text-red-400 p-4 rounded-lg flex items-center gap-3"
+                  >
+                    <AlertCircle className="h-5 w-5 flex-shrink-0" />
+                    <p className="text-sm">{error}</p>
+                  </motion.div>
+                )}
+
+                <div
+                  {...getRootProps()}
+                  className={`w-full border-2 border-dashed rounded-xl p-8 text-center cursor-pointer transition-all duration-300
+                    ${
+                      isDragActive
+                        ? "border-blue-500 bg-blue-50/50 dark:bg-blue-900/20"
+                        : "border-gray-300 dark:border-gray-600 hover:border-blue-500 dark:hover:border-blue-400"
+                    }
+                    ${error ? "border-red-300 dark:border-red-500" : ""}`}
+                >
+                  <input {...getInputProps()} />
+                  <div className="space-y-2">
+                    <p className="text-gray-600 dark:text-gray-300 text-lg font-medium">
+                      {isDragActive
+                        ? "Drop your PDF here"
+                        : "Drag & drop your PDF file here"}
+                    </p>
+                    <p className="text-sm text-gray-500 dark:text-gray-400">
+                      or click to browse files (max 10MB)
+                    </p>
+                  </div>
+                </div>
+
+                {pdf && (
+                  <motion.div
+                    initial={{ opacity: 0, y: 20 }}
+                    animate={{ opacity: 1, y: 0 }}
+                    className="w-full space-y-6"
+                  >
+                    <div className="bg-gray-50 dark:bg-gray-800 rounded-lg p-4 flex flex-col gap-3 shadow-lg">
+                      <div className="flex items-center justify-between">
+                        <div className="flex items-center gap-2">
+                          <FolderOpen className="h-5 w-5 text-gray-500 dark:text-gray-300" />
+                          <span className="text-sm font-medium text-gray-700 dark:text-gray-200 truncate">
+                            {pdf.name}
+                          </span>
+                        </div>
+                        <button
+                          onClick={resetState}
+                          className="bg-red-500 text-white rounded-full p-1.5 hover:bg-red-600 transition-colors"
+                        >
+                          <X className="h-3 w-3" />
+                        </button>
+                      </div>
+                      {pdf.preview && (
+                        <div className="relative w-full h-[200px] bg-white dark:bg-gray-800 rounded-lg overflow-hidden border border-gray-200 dark:border-gray-600">
+                          <iframe
+                            src={pdf.preview}
+                            className="w-full h-full"
+                            title={`Preview of ${pdf.name}`}
+                          />
+                        </div>
+                      )}
+                      <div className="flex flex-col gap-4 mt-2">
+                        <div>
+                          <label className="text-sm font-medium text-gray-700 dark:text-gray-300 mb-1 block">
+                            Compression Level
+                          </label>
+                          <div className="flex items-center gap-4">
+                            <Input
+                              type="range"
+                              min="0.1"
+                              max="1"
+                              step="0.05"
+                              value={compressionLevel}
+                              onChange={(e) =>
+                                setCompressionLevel(parseFloat(e.target.value))
+                              }
+                              className="flex-1 bg-white dark:bg-gray-800 border-gray-200 dark:border-gray-600"
+                            />
+                            <span className="text-sm text-gray-500 dark:text-gray-300 min-w-[60px]">
+                              {Math.round(compressionLevel * 100)}%
+                            </span>
+                          </div>
+                          <div className="flex justify-between text-xs text-gray-500 dark:text-gray-400 mt-1">
+                            <span>Maximum compression</span>
+                            <span>Original quality</span>
+                          </div>
+                        </div>
+                        <div className="flex flex-col gap-2">
+                          <div className="flex justify-between items-center text-sm">
+                            <span className="text-gray-500 dark:text-gray-400">
+                              Original size:
+                            </span>
+                            <span className="font-medium text-gray-700 dark:text-gray-200">
+                              {formatFileSize(pdf.originalSize)}
+                            </span>
+                          </div>
+                          <div className="flex justify-between items-center text-sm">
+                            <span className="text-gray-500 dark:text-gray-400">
+                              Estimated size:
+                            </span>
+                            <span className="font-medium text-blue-500 dark:text-blue-400">
+                              {formatFileSize(
+                                pdf.originalSize * compressionLevel
+                              )}
+                            </span>
+                          </div>
+                          <div className="flex justify-between items-center text-sm">
+                            <span className="text-gray-500 dark:text-gray-400">
+                              Size reduction:
+                            </span>
+                            <span className="font-medium text-green-500 dark:text-green-400">
+                              {Math.round((1 - compressionLevel) * 100)}%
+                            </span>
+                          </div>
+                        </div>
+                      </div>
+                    </div>
+
+                    {isCompressing && (
+                      <motion.div
+                        initial={{ opacity: 0, y: 10 }}
+                        animate={{ opacity: 1, y: 0 }}
+                        className="space-y-2"
+                      >
+                        <div className="w-full bg-gray-200 dark:bg-gray-700 rounded-full h-2.5 overflow-hidden">
+                          <motion.div
+                            initial={{ width: 0 }}
+                            animate={{ width: `${progress}%` }}
+                            transition={{ duration: 0.3 }}
+                            className="h-full bg-gradient-to-r from-blue-600 to-purple-600 rounded-full"
+                          />
+                        </div>
+                        <p className="text-center text-sm text-gray-600 dark:text-gray-400">
+                          Compressing PDF... {Math.round(progress)}%
+                        </p>
+                      </motion.div>
+                    )}
+
+                    <div className="flex justify-center gap-4">
+                      <Button
+                        onClick={compressPdf}
+                        disabled={isCompressing}
+                        className={`group relative overflow-hidden bg-gradient-to-r from-blue-600 to-purple-600 hover:from-blue-700 hover:to-purple-700 text-white h-12 rounded-lg px-6 font-medium transition-all duration-300 ${
+                          isCompressing ? "opacity-50 cursor-not-allowed" : ""
+                        }`}
+                      >
+                        <span className="relative z-10 flex items-center justify-center">
+                          <Shrink className="mr-2 h-4 w-4" />
+                          {isCompressing ? "Compressing..." : "Compress PDF"}
+                        </span>
+                        <div className="absolute inset-0 bg-gradient-to-r from-purple-600 to-pink-600 opacity-0 group-hover:opacity-100 transition-opacity duration-300" />
+                      </Button>
+                    </div>
+                  </motion.div>
+                )}
+              </div>
+
+              {compressedPdfUrl && (
+                <motion.div
+                  initial={{ opacity: 0, y: 10 }}
+                  animate={{ opacity: 1, y: 0 }}
+                  className="mt-6 flex justify-center gap-4"
+                >
+                  <Button
+                    onClick={downloadCompressedPdf}
+                    className="group relative overflow-hidden bg-gradient-to-r from-green-600 to-emerald-600 hover:from-green-700 hover:to-emerald-700 text-white h-12 rounded-lg px-6 font-medium transition-all duration-300"
+                  >
+                    <span className="relative z-10 flex items-center justify-center">
+                      <Download className="mr-2 h-4 w-4" />
+                      Download Compressed PDF
+                    </span>
+                    <div className="absolute inset-0 bg-gradient-to-r from-emerald-600 to-green-600 opacity-0 group-hover:opacity-100 transition-opacity duration-300" />
+                  </Button>
+                </motion.div>
+              )}
+            </Card>
+          </motion.div>
+        </div>
       </div>
     </div>
   );

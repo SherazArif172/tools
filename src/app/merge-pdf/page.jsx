@@ -4,8 +4,18 @@ import { useState } from "react";
 import { useDropzone } from "react-dropzone";
 import { Button } from "@/components/ui/button";
 import { Card } from "@/components/ui/card";
-import { Download, X, RefreshCw, FolderOpen, AlertCircle } from "lucide-react";
+import {
+  Download,
+  X,
+  RefreshCw,
+  FolderOpen,
+  AlertCircle,
+  Merge,
+} from "lucide-react";
 import { PDFDocument } from "pdf-lib";
+import JSZip from "jszip";
+import { motion } from "framer-motion";
+import Background from "@/app/_components/Background";
 
 export default function MergePdf() {
   const [pdfs, setPdfs] = useState([]);
@@ -172,153 +182,196 @@ export default function MergePdf() {
   };
 
   return (
-    <div className="w-full min-h-screen overflow-hidden relative bg-background mb-6">
-      <div className="flex flex-col justify-center items-center pt-16 sm:pt-24 md:pt-32 px-4">
-        <h1 className="text-3xl sm:text-4xl md:text-5xl text-foreground font-bold mb-2 sm:mb-4 text-center">
-          Merge PDF Files
-        </h1>
-        <p className="text-gray-600 text-base sm:text-lg md:text-xl mb-8 sm:mb-12 text-center">
-          Combine multiple PDF files into a single PDF
-        </p>
+    <div className="w-full min-h-screen overflow-hidden relative">
+      <Background />
+      <div className="relative z-10">
+        <div className="flex flex-col justify-center items-center pt-16 sm:pt-24 md:pt-32 px-4">
+          <motion.h1
+            initial={{ opacity: 0, y: 20 }}
+            animate={{ opacity: 1, y: 0 }}
+            transition={{ duration: 0.8 }}
+            className="text-4xl sm:text-5xl md:text-6xl font-bold mb-4 text-center bg-clip-text text-transparent bg-gradient-to-r from-blue-600 via-purple-600 to-pink-600 dark:from-blue-400 dark:via-purple-400 dark:to-pink-400"
+          >
+            Merge PDF Files
+          </motion.h1>
+          <motion.p
+            initial={{ opacity: 0, y: 20 }}
+            animate={{ opacity: 1, y: 0 }}
+            transition={{ duration: 0.8, delay: 0.2 }}
+            className="text-lg sm:text-xl text-gray-600 dark:text-gray-300 mb-8 sm:mb-12 text-center"
+          >
+            Combine multiple PDF files into a single document
+          </motion.p>
 
-        <Card className="w-full max-w-xl p-4 sm:p-6">
-          <div className="flex flex-col items-center justify-center space-y-4 sm:space-y-6">
-            <div className="flex flex-col sm:flex-row gap-4 w-full max-w-md">
-              <Button
-                onClick={() =>
-                  document.querySelector('input[type="file"]').click()
-                }
-                variant="outline"
-                className="bg-background border-[#1E90FF] text-[#1E90FF] hover:bg-[#1E90FF] hover:text-white h-12 rounded-lg px-4 sm:px-6 font-medium w-full"
-              >
-                <FolderOpen className="mr-2 h-5 w-5" />
-                Upload PDF Files
-              </Button>
+          <motion.div
+            initial={{ opacity: 0, y: 20 }}
+            animate={{ opacity: 1, y: 0 }}
+            transition={{ duration: 0.8, delay: 0.4 }}
+            className="w-full max-w-2xl"
+          >
+            <Card className="w-full p-6 sm:p-8 backdrop-blur-sm bg-white/80 dark:bg-gray-800/80 border border-gray-200/50 dark:border-gray-700/50 shadow-xl">
+              <div className="flex flex-col items-center justify-center space-y-6">
+                <div className="flex flex-col sm:flex-row gap-4 w-full">
+                  <Button
+                    onClick={() =>
+                      document.querySelector('input[type="file"]').click()
+                    }
+                    className="group relative overflow-hidden bg-gradient-to-r from-blue-600 to-purple-600 hover:from-blue-700 hover:to-purple-700 text-white h-12 rounded-lg px-6 font-medium w-full transition-all duration-300"
+                  >
+                    <span className="relative z-10 flex items-center justify-center">
+                      <FolderOpen className="mr-2 h-5 w-5" />
+                      Upload PDF Files
+                    </span>
+                    <div className="absolute inset-0 bg-gradient-to-r from-purple-600 to-pink-600 opacity-0 group-hover:opacity-100 transition-opacity duration-300" />
+                  </Button>
 
-              <Button
-                variant="outline"
-                className="bg-background border-[#1E90FF] text-[#1E90FF] hover:bg-[#1E90FF] hover:text-white h-12 rounded-lg px-4 sm:px-6 font-medium w-full sm:w-auto"
-              >
-                <FolderOpen className="mr-2 h-5 w-5" />
-                My Files
-              </Button>
-            </div>
+                  <Button className="group relative overflow-hidden bg-gradient-to-r from-purple-600 to-pink-600 hover:from-purple-700 hover:to-pink-700 text-white h-12 rounded-lg px-6 font-medium w-full sm:w-auto transition-all duration-300">
+                    <span className="relative z-10 flex items-center justify-center">
+                      <FolderOpen className="mr-2 h-5 w-5" />
+                      My Files
+                    </span>
+                    <div className="absolute inset-0 bg-gradient-to-r from-pink-600 to-blue-600 opacity-0 group-hover:opacity-100 transition-opacity duration-300" />
+                  </Button>
+                </div>
 
-            {error && (
-              <div className="w-full bg-red-50 text-red-500 p-3 rounded-lg flex items-center gap-2">
-                <AlertCircle className="h-5 w-5" />
-                <p className="text-sm">{error}</p>
-              </div>
-            )}
+                {error && (
+                  <motion.div
+                    initial={{ opacity: 0, y: 10 }}
+                    animate={{ opacity: 1, y: 0 }}
+                    className="w-full bg-red-50 dark:bg-red-900/20 text-red-500 dark:text-red-400 p-4 rounded-lg flex items-center gap-3"
+                  >
+                    <AlertCircle className="h-5 w-5 flex-shrink-0" />
+                    <p className="text-sm">{error}</p>
+                  </motion.div>
+                )}
 
-            <div
-              {...getRootProps()}
-              className={`w-full border-2 border-dashed rounded-lg p-4 sm:p-8 text-center cursor-pointer transition-colors
-                ${
-                  isDragActive
-                    ? "border-[#1E90FF] bg-blue-50"
-                    : "border-gray-300 hover:border-[#1E90FF]"
-                }
-                ${error ? "border-red-300" : ""}`}
-            >
-              <input {...getInputProps()} />
-              <p className="text-gray-500 text-lg">
-                {isDragActive
-                  ? "Drop the PDF files here"
-                  : "or Drag PDF files here"}
-              </p>
-              <p className="text-sm text-gray-400 mt-2">
-                Only PDF files are supported (max 10MB each)
-              </p>
-            </div>
+                <div
+                  {...getRootProps()}
+                  className={`w-full border-2 border-dashed rounded-xl p-8 text-center cursor-pointer transition-all duration-300
+                    ${
+                      isDragActive
+                        ? "border-blue-500 bg-blue-50/50 dark:bg-blue-900/20"
+                        : "border-gray-300 dark:border-gray-600 hover:border-blue-500 dark:hover:border-blue-400"
+                    }
+                    ${error ? "border-red-300 dark:border-red-500" : ""}`}
+                >
+                  <input {...getInputProps()} />
+                  <div className="space-y-2">
+                    <p className="text-gray-600 dark:text-gray-300 text-lg font-medium">
+                      {isDragActive
+                        ? "Drop your PDFs here"
+                        : "Drag & drop your PDF files here"}
+                    </p>
+                    <p className="text-sm text-gray-500 dark:text-gray-400">
+                      or click to browse files (max 10MB each)
+                    </p>
+                  </div>
+                </div>
 
-            {pdfs.length > 0 && (
-              <div className="w-full">
-                <div className="grid grid-cols-1 sm:grid-cols-2 gap-4 w-full">
-                  {pdfs.map((pdf, index) => (
-                    <div
-                      key={index}
-                      className="relative bg-gray-50 rounded-lg p-4 flex flex-col gap-3"
-                    >
+                {pdfs.length > 0 && (
+                  <motion.div
+                    initial={{ opacity: 0, y: 20 }}
+                    animate={{ opacity: 1, y: 0 }}
+                    className="w-full space-y-6"
+                  >
+                    <div className="bg-gray-50 dark:bg-gray-800 rounded-lg p-4 flex flex-col gap-3 shadow-lg">
                       <div className="flex items-center justify-between">
                         <div className="flex items-center gap-2">
-                          <FolderOpen className="h-5 w-5 text-gray-500" />
-                          <span className="text-sm font-medium text-gray-700 truncate">
-                            {pdf.name}
+                          <FolderOpen className="h-5 w-5 text-gray-500 dark:text-gray-300" />
+                          <span className="text-sm font-medium text-gray-700 dark:text-gray-200">
+                            {pdfs.length} PDFs selected
                           </span>
                         </div>
                         <button
-                          onClick={() => removePdf(index)}
+                          onClick={resetState}
                           className="bg-red-500 text-white rounded-full p-1.5 hover:bg-red-600 transition-colors"
                         >
                           <X className="h-3 w-3" />
                         </button>
                       </div>
-                      {pdf.preview && (
-                        <div className="relative w-full h-[200px] bg-white rounded-lg overflow-hidden border border-gray-200">
-                          <iframe
-                            src={pdf.preview}
-                            className="w-full h-full"
-                            title={`Preview of ${pdf.name}`}
+                      <div className="space-y-4">
+                        {pdfs.map((pdf, index) => (
+                          <div
+                            key={index}
+                            className="flex items-center justify-between p-3 bg-white dark:bg-gray-700 rounded-lg border border-gray-200 dark:border-gray-600"
+                          >
+                            <div className="flex items-center gap-2">
+                              <FolderOpen className="h-4 w-4 text-gray-500 dark:text-gray-300" />
+                              <span className="text-sm text-gray-700 dark:text-gray-200 truncate">
+                                {pdf.name}
+                              </span>
+                            </div>
+                            <button
+                              onClick={() => removePdf(index)}
+                              className="text-gray-500 dark:text-gray-300 hover:text-red-500 dark:hover:text-red-400"
+                            >
+                              <X className="h-4 w-4" />
+                            </button>
+                          </div>
+                        ))}
+                      </div>
+                    </div>
+
+                    {isMerging && (
+                      <motion.div
+                        initial={{ opacity: 0, y: 10 }}
+                        animate={{ opacity: 1, y: 0 }}
+                        className="space-y-2"
+                      >
+                        <div className="w-full bg-gray-200 dark:bg-gray-700 rounded-full h-2.5 overflow-hidden">
+                          <motion.div
+                            initial={{ width: 0 }}
+                            animate={{ width: `${progress}%` }}
+                            transition={{ duration: 0.3 }}
+                            className="h-full bg-gradient-to-r from-blue-600 to-purple-600 rounded-full"
                           />
                         </div>
-                      )}
-                    </div>
-                  ))}
-                </div>
+                        <p className="text-center text-sm text-gray-600 dark:text-gray-400">
+                          Merging PDFs... {Math.round(progress)}%
+                        </p>
+                      </motion.div>
+                    )}
 
-                {isMerging && (
-                  <div className="mt-4">
-                    <div className="w-full bg-gray-200 rounded-full h-2.5">
-                      <div
-                        className="bg-[#0095FF] h-2.5 rounded-full transition-all duration-300"
-                        style={{ width: `${progress}%` }}
-                      ></div>
+                    <div className="flex justify-center gap-4">
+                      <Button
+                        onClick={mergePdfs}
+                        disabled={isMerging}
+                        className={`group relative overflow-hidden bg-gradient-to-r from-blue-600 to-purple-600 hover:from-blue-700 hover:to-purple-700 text-white h-12 rounded-lg px-6 font-medium transition-all duration-300 ${
+                          isMerging ? "opacity-50 cursor-not-allowed" : ""
+                        }`}
+                      >
+                        <span className="relative z-10 flex items-center justify-center">
+                          <Merge className="mr-2 h-4 w-4" />
+                          {isMerging ? "Merging..." : "Merge PDFs"}
+                        </span>
+                        <div className="absolute inset-0 bg-gradient-to-r from-purple-600 to-pink-600 opacity-0 group-hover:opacity-100 transition-opacity duration-300" />
+                      </Button>
                     </div>
-                    <p className="text-center text-sm text-gray-600 mt-2">
-                      Merging PDFs... {Math.round(progress)}%
-                    </p>
-                  </div>
+                  </motion.div>
                 )}
-
-                <div className="mt-4 flex justify-center gap-4">
-                  <Button
-                    onClick={mergePdfs}
-                    disabled={isMerging}
-                    className={`bg-[#1E90FF] hover:bg-[#1873CC] ${
-                      isMerging ? "opacity-50 cursor-not-allowed" : ""
-                    }`}
-                  >
-                    {isMerging ? "Merging..." : "Merge PDFs"}
-                  </Button>
-                  <Button
-                    onClick={resetState}
-                    variant="outline"
-                    disabled={isMerging}
-                    className={`text-red-500 hover:text-red-600 hover:bg-red-50 ${
-                      isMerging ? "opacity-50 cursor-not-allowed" : ""
-                    }`}
-                  >
-                    <RefreshCw className="mr-2 h-4 w-4" />
-                    Reset
-                  </Button>
-                </div>
               </div>
-            )}
-          </div>
 
-          {mergedPdfUrl && (
-            <div className="mt-6 flex justify-center gap-4">
-              <Button
-                onClick={downloadMergedPdf}
-                className="bg-green-500 hover:bg-green-600"
-              >
-                <Download className="mr-2 h-4 w-4" />
-                Download Merged PDF
-              </Button>
-            </div>
-          )}
-        </Card>
+              {mergedPdfUrl && (
+                <motion.div
+                  initial={{ opacity: 0, y: 10 }}
+                  animate={{ opacity: 1, y: 0 }}
+                  className="mt-6 flex justify-center gap-4"
+                >
+                  <Button
+                    onClick={downloadMergedPdf}
+                    className="group relative overflow-hidden bg-gradient-to-r from-green-600 to-emerald-600 hover:from-green-700 hover:to-emerald-700 text-white h-12 rounded-lg px-6 font-medium transition-all duration-300"
+                  >
+                    <span className="relative z-10 flex items-center justify-center">
+                      <Download className="mr-2 h-4 w-4" />
+                      Download Merged PDF
+                    </span>
+                    <div className="absolute inset-0 bg-gradient-to-r from-emerald-600 to-green-600 opacity-0 group-hover:opacity-100 transition-opacity duration-300" />
+                  </Button>
+                </motion.div>
+              )}
+            </Card>
+          </motion.div>
+        </div>
       </div>
     </div>
   );

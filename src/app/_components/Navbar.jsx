@@ -1,8 +1,9 @@
 "use client";
 
-import { useState, useEffect } from "react";
+import { useState, useEffect, useRef } from "react";
 import Link from "next/link";
-import { Moon, Sun, ChevronDown, Menu, X } from "lucide-react";
+import { Moon, Sun, ChevronDown, Menu, X, Search, Grid3x3 } from "lucide-react";
+import { useRouter } from "next/navigation";
 
 import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
@@ -15,6 +16,34 @@ import {
 export default function Navbar() {
   const [theme, setTheme] = useState("light");
   const [mobileMenuOpen, setMobileMenuOpen] = useState(false);
+  const [searchQuery, setSearchQuery] = useState("");
+  const [showResults, setShowResults] = useState(false);
+  const searchRef = useRef(null);
+  const router = useRouter();
+
+  const toolRoutes = {
+    "PDF Tools": {
+      category: "PDF Tools",
+      tools: {
+        "pdf to excel": "/pdf-to-excel",
+        "excel to pdf": "/excel-to-pdf",
+        "word to pdf": "/word-to-pdf",
+        "pdf to word": "/pdf-to-word",
+        "merge pdf": "/merge-pdf",
+        "split pdf": "/split-pdf",
+        "compress pdf": "/compress-pdf",
+        "pdf tools": "/pdf",
+      },
+    },
+    "Image Tools": {
+      category: "Image Tools",
+      tools: {
+        "image to pdf": "/image-to-pdf",
+        "jpg to pdf": "/jpg-to-pdf",
+        "png to pdf": "/png-to-pdf",
+      },
+    },
+  };
 
   useEffect(() => {
     // Check for saved theme preference or system preference
@@ -32,6 +61,17 @@ export default function Navbar() {
     }
   }, []);
 
+  // Close search results when clicking outside
+  useEffect(() => {
+    function handleClickOutside(event) {
+      if (searchRef.current && !searchRef.current.contains(event.target)) {
+        setShowResults(false);
+      }
+    }
+    document.addEventListener("mousedown", handleClickOutside);
+    return () => document.removeEventListener("mousedown", handleClickOutside);
+  }, []);
+
   const toggleTheme = () => {
     const newTheme = theme === "light" ? "dark" : "light";
     setTheme(newTheme);
@@ -39,96 +79,61 @@ export default function Navbar() {
     document.documentElement.classList.toggle("dark");
   };
 
+  const handleSearch = (query) => {
+    setSearchQuery(query);
+    setShowResults(query.length > 0);
+  };
+
+  const filteredTools = Object.entries(toolRoutes).reduce(
+    (acc, [category, data]) => {
+      const matchingTools = Object.entries(data.tools).filter(([toolName]) =>
+        toolName.toLowerCase().includes(searchQuery.toLowerCase())
+      );
+      if (matchingTools.length > 0) {
+        acc.push({ category: data.category, tools: matchingTools });
+      }
+      return acc;
+    },
+    []
+  );
+
+  const handleToolSelect = (route) => {
+    router.push(route);
+    setShowResults(false);
+    setSearchQuery("");
+  };
+
   return (
-    <nav className="border-b bg-background">
+    <nav className="border-b border-gray-200/10 bg-gradient-to-r from-indigo-100 via-rose-50 to-teal-50 backdrop-blur-sm dark:from-slate-900/80 dark:via-slate-800/80 dark:to-slate-900/80 sticky top-0 z-50 shadow-sm">
       <div className="mx-auto flex h-16 max-w-7xl items-center justify-between px-4 sm:px-6 lg:px-8">
         {/* Logo/Brand */}
         <div className="flex-shrink-0">
-          <Link href="/" className="text-xl font-bold">
+          <Link
+            href="/"
+            className="text-xl font-bold bg-gradient-to-r from-indigo-600 to-violet-600 bg-clip-text text-transparent hover:from-indigo-500 hover:to-violet-500 transition-colors dark:text-white"
+          >
             Tools
           </Link>
         </div>
 
         {/* Desktop Navigation */}
         <div className="hidden md:flex md:flex-1 md:justify-center">
-          <ul className="flex space-x-8">
+          <ul className="flex space-x-8 items-center">
             <li>
-              <Link href="/" className="text-sm font-medium hover:text-primary">
+              <Link
+                href="/"
+                className="text-sm font-medium text-gray-800 hover:text-indigo-600 dark:text-gray-200 dark:hover:text-primary inline-flex items-center transition-colors"
+              >
                 Home
               </Link>
             </li>
-            <li className="group relative">
-              <button className="flex items-center text-sm font-medium hover:text-primary py-1">
-                Features
-                <ChevronDown className="ml-1 h-4 w-4" />
-              </button>
-              <div className="absolute left-0 top-6 z-10 mt-1 hidden w-48 rounded-md border bg-background py-1 shadow-lg group-hover:block">
-                <Link
-                  href="/features/analytics"
-                  className="block px-4 py-2 text-sm hover:bg-muted"
-                >
-                  Analytics
-                </Link>
-                <Link
-                  href="/features/automation"
-                  className="block px-4 py-2 text-sm hover:bg-muted"
-                >
-                  Automation
-                </Link>
-                <Link
-                  href="/features/reports"
-                  className="block px-4 py-2 text-sm hover:bg-muted"
-                >
-                  Reports
-                </Link>
-                <Link
-                  href="/features/integrations"
-                  className="block px-4 py-2 text-sm hover:bg-muted"
-                >
-                  Integrations
-                </Link>
-              </div>
-            </li>
             <li>
               <Link
-                href="/pricing"
-                className="text-sm font-medium hover:text-primary"
+                href="/tools"
+                className="text-sm font-medium text-gray-800 hover:text-indigo-600 dark:text-gray-200 dark:hover:text-primary inline-flex items-center gap-1.5 transition-colors"
               >
-                Pricing
-              </Link>
-            </li>
-            <li className="group relative">
-              <button className="flex items-center text-sm font-medium hover:text-primary py-1">
-                About
-                <ChevronDown className="ml-1 h-4 w-4" />
-              </button>
-              <div className="absolute left-0 top-6 z-10 mt-1 hidden w-48 rounded-md border bg-background py-1 shadow-lg group-hover:block">
-                <Link
-                  href="/about/company"
-                  className="block px-4 py-2 text-sm hover:bg-muted"
-                >
-                  Company
-                </Link>
-                <Link
-                  href="/about/team"
-                  className="block px-4 py-2 text-sm hover:bg-muted"
-                >
-                  Team
-                </Link>
-                <Link
-                  href="/about/careers"
-                  className="block px-4 py-2 text-sm hover:bg-muted"
-                >
-                  Careers
-                </Link>
-              </div>
-            </li>
-            <li>
-              <Link
-                href="/contact"
-                className="text-sm font-medium hover:text-primary"
-              >
-                Contact
+                <Grid3x3 className="h-4 w-4" />
+                Tools
               </Link>
             </li>
           </ul>
@@ -137,9 +142,14 @@ export default function Navbar() {
         {/* Right side items */}
         <div className="flex items-center space-x-2 md:space-x-4">
           {/* Theme toggle - visible on all screen sizes */}
-          <Button variant="ghost" size="icon" onClick={toggleTheme}>
+          <Button
+            variant="ghost"
+            size="icon"
+            onClick={toggleTheme}
+            className="hover:bg-indigo-50 dark:hover:bg-gray-800/50 transition-colors"
+          >
             {theme === "light" ? (
-              <Moon className="h-5 w-5" />
+              <Moon className="h-5 w-5 text-indigo-600" />
             ) : (
               <Sun className="h-5 w-5" />
             )}
@@ -148,21 +158,58 @@ export default function Navbar() {
 
           {/* Search input and Sign in - hidden on mobile */}
           <div className="hidden md:flex md:items-center md:space-x-4">
-            <div className="relative">
-              <Input
-                type="search"
-                placeholder="Search"
-                className="w-64 rounded-md"
-              />
+            <div className="relative" ref={searchRef}>
+              <div className="relative">
+                <Search className="absolute left-3 top-1/2 -translate-y-1/2 h-4 w-4 text-indigo-400" />
+                <Input
+                  type="search"
+                  placeholder="Search tools..."
+                  className="w-64 pl-10 rounded-md bg-white/70 hover:bg-white focus:bg-white transition-colors dark:bg-gray-800/50 border-indigo-100 focus:border-indigo-300 dark:border-gray-700"
+                  value={searchQuery}
+                  onChange={(e) => handleSearch(e.target.value)}
+                  onFocus={() => setShowResults(true)}
+                />
+              </div>
+              {showResults && filteredTools.length > 0 && (
+                <div className="absolute top-full left-0 right-0 mt-1 bg-white dark:bg-gray-800 border border-indigo-100 dark:border-gray-700 rounded-md shadow-lg z-50 max-h-60 overflow-y-auto">
+                  {filteredTools.map(({ category, tools }) => (
+                    <div
+                      key={category}
+                      className="border-b border-indigo-50 dark:border-gray-700 last:border-b-0"
+                    >
+                      <div className="px-4 py-2 text-sm font-semibold text-indigo-600 dark:text-gray-400 bg-indigo-50/50 dark:bg-gray-800/50">
+                        {category}
+                      </div>
+                      {tools.map(([toolName, route]) => (
+                        <button
+                          key={route}
+                          className="w-full px-4 py-2 text-left text-sm hover:bg-indigo-50/50 dark:hover:bg-gray-700/50 flex items-center text-gray-700 dark:text-gray-200"
+                          onClick={() => handleToolSelect(route)}
+                        >
+                          <Search className="h-4 w-4 mr-2 text-indigo-400" />
+                          {toolName}
+                        </button>
+                      ))}
+                    </div>
+                  ))}
+                </div>
+              )}
+              {showResults && filteredTools.length === 0 && (
+                <div className="absolute top-full left-0 right-0 mt-1 bg-white dark:bg-gray-800 border border-indigo-100 dark:border-gray-700 rounded-md shadow-lg z-50 p-4 text-sm text-gray-500 dark:text-gray-400">
+                  No tools found matching "{searchQuery}"
+                </div>
+              )}
             </div>
-            <Button>Sign In</Button>
+            <Button className="bg-gradient-to-r from-indigo-600 to-violet-600 hover:from-indigo-500 hover:to-violet-500 text-white transition-all duration-200">
+              Sign In
+            </Button>
           </div>
 
           {/* Mobile menu button */}
           <div className="flex md:hidden">
             <button
               type="button"
-              className="inline-flex items-center justify-center rounded-md p-2 text-gray-400 hover:bg-gray-100 hover:text-gray-500 focus:outline-none focus:ring-2 focus:ring-inset focus:ring-primary"
+              className="inline-flex items-center justify-center rounded-md p-2 text-gray-500 hover:bg-indigo-50 hover:text-indigo-600 dark:text-gray-400 dark:hover:bg-gray-800/50 dark:hover:text-gray-300 focus:outline-none focus:ring-2 focus:ring-inset focus:ring-indigo-500"
               onClick={() => setMobileMenuOpen(!mobileMenuOpen)}
             >
               <span className="sr-only">Open main menu</span>
@@ -178,104 +225,21 @@ export default function Navbar() {
 
       {/* Mobile menu, show/hide based on menu state */}
       {mobileMenuOpen && (
-        <div className="md:hidden">
+        <div className="md:hidden bg-white/90 dark:bg-gray-800/90 backdrop-blur-sm">
           <div className="flex flex-col items-center space-y-4 px-2 py-4">
             <Link
               href="/"
-              className="w-full rounded-md px-3 py-2 text-center text-base font-medium hover:bg-gray-100 hover:text-primary"
+              className="w-full rounded-md px-3 py-2 text-center text-base font-medium text-gray-800 hover:bg-indigo-50 hover:text-indigo-600 dark:text-gray-200 dark:hover:bg-gray-700/50"
             >
               Home
             </Link>
-
-            <div className="w-full">
-              <Collapsible className="w-full">
-                <CollapsibleTrigger className="flex w-full items-center justify-center rounded-md px-3 py-2 text-base font-medium hover:bg-gray-100 hover:text-primary">
-                  Features
-                  <ChevronDown className="ml-1 h-4 w-4" />
-                </CollapsibleTrigger>
-                <CollapsibleContent className="space-y-1">
-                  <Link
-                    href="/features/analytics"
-                    className="block rounded-md px-3 py-2 text-center text-sm hover:bg-gray-100 hover:text-primary"
-                  >
-                    Analytics
-                  </Link>
-                  <Link
-                    href="/features/automation"
-                    className="block rounded-md px-3 py-2 text-center text-sm hover:bg-gray-100 hover:text-primary"
-                  >
-                    Automation
-                  </Link>
-                  <Link
-                    href="/features/reports"
-                    className="block rounded-md px-3 py-2 text-center text-sm hover:bg-gray-100 hover:text-primary"
-                  >
-                    Reports
-                  </Link>
-                  <Link
-                    href="/features/integrations"
-                    className="block rounded-md px-3 py-2 text-center text-sm hover:bg-gray-100 hover:text-primary"
-                  >
-                    Integrations
-                  </Link>
-                </CollapsibleContent>
-              </Collapsible>
-            </div>
-
             <Link
-              href="/pricing"
-              className="w-full rounded-md px-3 py-2 text-center text-base font-medium hover:bg-gray-100 hover:text-primary"
+              href="/tools"
+              className="w-full rounded-md px-3 py-2 text-center text-base font-medium text-gray-800 hover:bg-indigo-50 hover:text-indigo-600 dark:text-gray-200 dark:hover:bg-gray-700/50 flex items-center justify-center gap-2"
             >
-              Pricing
+              <Grid3x3 className="h-4 w-4" />
+              Tools
             </Link>
-
-            <div className="w-full">
-              <Collapsible className="w-full">
-                <CollapsibleTrigger className="flex w-full items-center justify-center rounded-md px-3 py-2 text-base font-medium hover:bg-gray-100 hover:text-primary">
-                  About
-                  <ChevronDown className="ml-1 h-4 w-4" />
-                </CollapsibleTrigger>
-                <CollapsibleContent className="space-y-1">
-                  <Link
-                    href="/about/company"
-                    className="block rounded-md px-3 py-2 text-center text-sm hover:bg-gray-100 hover:text-primary"
-                  >
-                    Company
-                  </Link>
-                  <Link
-                    href="/about/team"
-                    className="block rounded-md px-3 py-2 text-center text-sm hover:bg-gray-100 hover:text-primary"
-                  >
-                    Team
-                  </Link>
-                  <Link
-                    href="/about/careers"
-                    className="block rounded-md px-3 py-2 text-center text-sm hover:bg-gray-100 hover:text-primary"
-                  >
-                    Careers
-                  </Link>
-                </CollapsibleContent>
-              </Collapsible>
-            </div>
-
-            <Link
-              href="/contact"
-              className="w-full rounded-md px-3 py-2 text-center text-base font-medium hover:bg-gray-100 hover:text-primary"
-            >
-              Contact
-            </Link>
-
-            <div className="mt-2 w-full px-4">
-              <Input
-                type="search"
-                placeholder="Search"
-                className="w-full rounded-md"
-              />
-            </div>
-
-            <div className="mt-4 w-full px-4">
-              <Button className="w-full">Sign In</Button>
-            </div>
           </div>
         </div>
       )}

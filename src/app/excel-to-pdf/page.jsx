@@ -15,6 +15,8 @@ import {
   StyleSheet,
   pdf,
 } from "@react-pdf/renderer";
+import { motion } from "framer-motion";
+import Background from "@/app/_components/Background";
 
 // Create styles
 const styles = StyleSheet.create({
@@ -386,221 +388,250 @@ export default function ExcelToPdf() {
   };
 
   return (
-    <div className="w-full min-h-screen overflow-hidden relative bg-background mb-6">
-      <div className="flex flex-col justify-center items-center pt-16 sm:pt-24 md:pt-32 px-4">
-        <h1 className="text-3xl sm:text-4xl md:text-5xl text-foreground font-bold mb-2 sm:mb-4 text-center">
-          Convert Excel to PDF
-        </h1>
-        <p className="text-gray-600 text-base sm:text-lg md:text-xl mb-8 sm:mb-12 text-center">
-          Transform your Excel spreadsheets into PDF documents instantly
-        </p>
+    <div className="w-full min-h-screen overflow-hidden relative">
+      <Background />
+      <div className="relative z-10">
+        <div className="flex flex-col justify-center items-center pt-16 sm:pt-24 md:pt-32 px-4">
+          <motion.h1
+            initial={{ opacity: 0, y: 20 }}
+            animate={{ opacity: 1, y: 0 }}
+            transition={{ duration: 0.8 }}
+            className="text-4xl sm:text-5xl md:text-6xl font-bold mb-4 text-center bg-clip-text text-transparent bg-gradient-to-r from-blue-600 via-purple-600 to-pink-600 dark:from-blue-400 dark:via-purple-400 dark:to-pink-400"
+          >
+            Convert Excel to PDF
+          </motion.h1>
+          <motion.p
+            initial={{ opacity: 0, y: 20 }}
+            animate={{ opacity: 1, y: 0 }}
+            transition={{ duration: 0.8, delay: 0.2 }}
+            className="text-lg sm:text-xl text-gray-600 dark:text-gray-300 mb-8 sm:mb-12 text-center"
+          >
+            Transform your Excel spreadsheets into PDF documents instantly
+          </motion.p>
 
-        <Card className="w-full max-w-xl p-4 sm:p-6">
-          <div className="flex flex-col items-center justify-center space-y-4 sm:space-y-6">
-            <Button
-              onClick={() =>
-                document.querySelector('input[type="file"]').click()
-              }
-              variant="outline"
-              className="bg-background border-[#1E90FF] text-[#1E90FF] hover:bg-[#1E90FF] hover:text-white h-12 rounded-lg px-4 sm:px-6 font-medium w-full max-w-md"
-            >
-              <FolderOpen className="mr-2 h-5 w-5" />
-              Upload Excel File
-            </Button>
+          <motion.div
+            initial={{ opacity: 0, y: 20 }}
+            animate={{ opacity: 1, y: 0 }}
+            transition={{ duration: 0.8, delay: 0.4 }}
+            className="w-full max-w-2xl"
+          >
+            <Card className="w-full p-6 sm:p-8 backdrop-blur-sm bg-white/80 dark:bg-gray-800/80 border border-gray-200/50 dark:border-gray-700/50 shadow-xl">
+              <div className="flex flex-col items-center justify-center space-y-4 sm:space-y-6">
+                <Button
+                  onClick={() =>
+                    document.querySelector('input[type="file"]').click()
+                  }
+                  className="group relative overflow-hidden bg-gradient-to-r from-blue-600 to-purple-600 hover:from-blue-700 hover:to-purple-700 text-white h-12 rounded-lg px-6 font-medium w-full max-w-md transition-all duration-300"
+                >
+                  <span className="relative z-10 flex items-center justify-center">
+                    <FolderOpen className="mr-2 h-5 w-5" />
+                    Upload Excel File
+                  </span>
+                  <div className="absolute inset-0 bg-gradient-to-r from-purple-600 to-pink-600 opacity-0 group-hover:opacity-100 transition-opacity duration-300" />
+                </Button>
 
-            {error && (
-              <div className="w-full bg-red-50 text-red-500 p-3 rounded-lg flex items-center gap-2">
-                <AlertCircle className="h-5 w-5" />
-                <p className="text-sm">{error}</p>
-              </div>
-            )}
-
-            <div
-              {...getRootProps()}
-              className={`w-full border-2 border-dashed rounded-lg p-4 sm:p-8 text-center cursor-pointer transition-colors
-                ${
-                  isDragActive
-                    ? "border-[#1E90FF] bg-blue-50"
-                    : "border-gray-300 hover:border-[#1E90FF]"
-                }
-                ${error ? "border-red-300" : ""}`}
-            >
-              <input {...getInputProps()} />
-              <p className="text-gray-500 text-lg">
-                {isDragActive
-                  ? "Drop the Excel file here"
-                  : "or Drag Excel file here"}
-              </p>
-              <p className="text-sm text-gray-400 mt-2">
-                Supported formats: .xlsx, .xls (max 10MB)
-              </p>
-            </div>
-
-            {file && (
-              <>
-                <div className="w-full bg-gray-50 rounded-lg p-4">
-                  <div className="flex items-center justify-between">
-                    <div className="flex items-center gap-2">
-                      <FolderOpen className="h-5 w-5 text-gray-500" />
-                      <span className="text-sm font-medium text-gray-700 truncate">
-                        {file.name}
-                      </span>
-                    </div>
-                    <button
-                      onClick={resetState}
-                      className="bg-red-500 text-white rounded-full p-1.5 hover:bg-red-600 transition-colors"
-                    >
-                      <X className="h-3 w-3" />
-                    </button>
+                {error && (
+                  <div className="w-full bg-red-50 text-red-500 p-3 rounded-lg flex items-center gap-2">
+                    <AlertCircle className="h-5 w-5" />
+                    <p className="text-sm">{error}</p>
                   </div>
+                )}
+
+                <div
+                  {...getRootProps()}
+                  className={`w-full border-2 border-dashed rounded-lg p-4 sm:p-8 text-center cursor-pointer transition-colors
+                    ${
+                      isDragActive
+                        ? "border-[#1E90FF] bg-blue-50"
+                        : "border-gray-300 hover:border-[#1E90FF]"
+                    }
+                    ${error ? "border-red-300" : ""}`}
+                >
+                  <input {...getInputProps()} />
+                  <p className="text-gray-500 text-lg">
+                    {isDragActive
+                      ? "Drop the Excel file here"
+                      : "or Drag Excel file here"}
+                  </p>
+                  <p className="text-sm text-gray-400 mt-2">
+                    Supported formats: .xlsx, .xls (max 10MB)
+                  </p>
                 </div>
 
-                {excelPreview && !showPreview && (
-                  <div className="w-full overflow-x-auto">
-                    <div className="border rounded-lg">
-                      <table className="min-w-full divide-y divide-gray-200">
-                        <tbody className="bg-white divide-y divide-gray-200">
-                          {excelPreview.map((row, rowIndex) => (
-                            <tr key={rowIndex}>
-                              {row.map((cell, cellIndex) => (
-                                <td
-                                  key={cellIndex}
-                                  className={`px-4 py-2 whitespace-nowrap text-sm ${
-                                    rowIndex === 0
-                                      ? "font-medium bg-gray-50"
-                                      : "text-gray-500"
-                                  }`}
-                                >
-                                  {cell}
-                                </td>
-                              ))}
-                            </tr>
-                          ))}
-                        </tbody>
-                      </table>
+                {file && (
+                  <>
+                    <div className="w-full bg-gray-50 rounded-lg p-4">
+                      <div className="flex items-center justify-between">
+                        <div className="flex items-center gap-2">
+                          <FolderOpen className="h-5 w-5 text-gray-500" />
+                          <span className="text-sm font-medium text-gray-700 truncate">
+                            {file.name}
+                          </span>
+                        </div>
+                        <button
+                          onClick={resetState}
+                          className="bg-red-500 text-white rounded-full p-1.5 hover:bg-red-600 transition-colors"
+                        >
+                          <X className="h-3 w-3" />
+                        </button>
+                      </div>
                     </div>
-                  </div>
+
+                    {excelPreview && !showPreview && (
+                      <div className="w-full overflow-x-auto">
+                        <div className="border rounded-lg">
+                          <table className="min-w-full divide-y divide-gray-200">
+                            <tbody className="bg-white divide-y divide-gray-200">
+                              {excelPreview.map((row, rowIndex) => (
+                                <tr key={rowIndex}>
+                                  {row.map((cell, cellIndex) => (
+                                    <td
+                                      key={cellIndex}
+                                      className={`px-4 py-2 whitespace-nowrap text-sm ${
+                                        rowIndex === 0
+                                          ? "font-medium bg-gray-50"
+                                          : "text-gray-500"
+                                      }`}
+                                    >
+                                      {cell}
+                                    </td>
+                                  ))}
+                                </tr>
+                              ))}
+                            </tbody>
+                          </table>
+                        </div>
+                      </div>
+                    )}
+
+                    {!showPreview && (
+                      <div className="flex gap-4">
+                        <Button
+                          onClick={processExcelData}
+                          disabled={isConverting}
+                          className={`group relative overflow-hidden bg-gradient-to-r from-blue-600 to-purple-600 hover:from-blue-700 hover:to-purple-700 text-white h-12 rounded-lg px-6 font-medium transition-all duration-300 ${
+                            isConverting ? "opacity-50 cursor-not-allowed" : ""
+                          }`}
+                        >
+                          <span className="relative z-10 flex items-center justify-center">
+                            {isConverting ? "Processing..." : "Convert to PDF"}
+                          </span>
+                          <div className="absolute inset-0 bg-gradient-to-r from-purple-600 to-pink-600 opacity-0 group-hover:opacity-100 transition-opacity duration-300" />
+                        </Button>
+                        <Button
+                          onClick={resetState}
+                          disabled={isConverting}
+                          className={`group relative overflow-hidden bg-gradient-to-r from-gray-600 to-gray-700 hover:from-gray-700 hover:to-gray-800 text-white h-12 rounded-lg px-6 font-medium transition-all duration-300 ${
+                            isConverting ? "opacity-50 cursor-not-allowed" : ""
+                          }`}
+                        >
+                          <span className="relative z-10 flex items-center justify-center">
+                            <RefreshCw className="mr-2 h-4 w-4" />
+                            Reset
+                          </span>
+                        </Button>
+                      </div>
+                    )}
+                  </>
                 )}
 
-                {!showPreview && (
-                  <div className="flex gap-4">
-                    <Button
-                      onClick={processExcelData}
-                      disabled={isConverting}
-                      className={`bg-[#1E90FF] hover:bg-[#1873CC] ${
-                        isConverting ? "opacity-50 cursor-not-allowed" : ""
-                      }`}
-                    >
-                      {isConverting ? "Processing..." : "Convert to PDF"}
-                    </Button>
-                    <Button
-                      onClick={resetState}
-                      variant="outline"
-                      disabled={isConverting}
-                      className={`text-red-500 hover:text-red-600 hover:bg-red-50 ${
-                        isConverting ? "opacity-50 cursor-not-allowed" : ""
-                      }`}
-                    >
-                      <RefreshCw className="mr-2 h-4 w-4" />
-                      Reset
-                    </Button>
-                  </div>
-                )}
-              </>
-            )}
-
-            {showPreview && excelData && (
-              <div className="w-full space-y-4">
-                <div className="w-full h-[500px] border rounded-lg overflow-hidden">
-                  <PDFViewer width="100%" height="100%">
-                    <Document>
-                      <Page size="A4" style={styles.page}>
-                        <Text style={styles.title}>
-                          {file.name.split(".")[0]}
-                        </Text>
-                        <View style={styles.table}>
-                          {/* Header Row */}
-                          <View style={styles.tableRow}>
-                            {excelData.headers.map((header, index) => (
-                              <View
-                                key={index}
-                                style={[
-                                  styles.tableCell,
-                                  {
-                                    width: `${excelData.columnWidths[index]}%`,
-                                    backgroundColor: header.backgroundColor,
-                                  },
-                                ]}
-                              >
-                                <Text
-                                  style={[
-                                    styles.cellText,
-                                    {
-                                      fontWeight: header.isBold
-                                        ? "bold"
-                                        : "normal",
-                                    },
-                                    header.alignment === "center" &&
-                                      styles.cellTextCenter,
-                                    header.alignment === "right" &&
-                                      styles.cellTextRight,
-                                  ]}
-                                >
-                                  {header.text}
-                                </Text>
-                              </View>
-                            ))}
-                          </View>
-                          {/* Data Rows */}
-                          {excelData.data.map((row, rowIndex) => (
-                            <View key={rowIndex} style={styles.tableRow}>
-                              {row.map((cell, cellIndex) => (
-                                <View
-                                  key={cellIndex}
-                                  style={[
-                                    styles.tableCell,
-                                    {
-                                      width: `${excelData.columnWidths[cellIndex]}%`,
-                                      backgroundColor: cell.backgroundColor,
-                                    },
-                                  ]}
-                                >
-                                  <Text
+                {showPreview && excelData && (
+                  <div className="w-full space-y-4">
+                    <div className="w-full h-[500px] border rounded-lg overflow-hidden">
+                      <PDFViewer width="100%" height="100%">
+                        <Document>
+                          <Page size="A4" style={styles.page}>
+                            <Text style={styles.title}>
+                              {file.name.split(".")[0]}
+                            </Text>
+                            <View style={styles.table}>
+                              {/* Header Row */}
+                              <View style={styles.tableRow}>
+                                {excelData.headers.map((header, index) => (
+                                  <View
+                                    key={index}
                                     style={[
-                                      styles.cellText,
+                                      styles.tableCell,
                                       {
-                                        fontWeight: cell.isBold
-                                          ? "bold"
-                                          : "normal",
+                                        width: `${excelData.columnWidths[index]}%`,
+                                        backgroundColor: header.backgroundColor,
                                       },
-                                      cell.alignment === "center" &&
-                                        styles.cellTextCenter,
-                                      cell.alignment === "right" &&
-                                        styles.cellTextRight,
                                     ]}
                                   >
-                                    {cell.text}
-                                  </Text>
+                                    <Text
+                                      style={[
+                                        styles.cellText,
+                                        {
+                                          fontWeight: header.isBold
+                                            ? "bold"
+                                            : "normal",
+                                        },
+                                        header.alignment === "center" &&
+                                          styles.cellTextCenter,
+                                        header.alignment === "right" &&
+                                          styles.cellTextRight,
+                                      ]}
+                                    >
+                                      {header.text}
+                                    </Text>
+                                  </View>
+                                ))}
+                              </View>
+                              {/* Data Rows */}
+                              {excelData.data.map((row, rowIndex) => (
+                                <View key={rowIndex} style={styles.tableRow}>
+                                  {row.map((cell, cellIndex) => (
+                                    <View
+                                      key={cellIndex}
+                                      style={[
+                                        styles.tableCell,
+                                        {
+                                          width: `${excelData.columnWidths[cellIndex]}%`,
+                                          backgroundColor: cell.backgroundColor,
+                                        },
+                                      ]}
+                                    >
+                                      <Text
+                                        style={[
+                                          styles.cellText,
+                                          {
+                                            fontWeight: cell.isBold
+                                              ? "bold"
+                                              : "normal",
+                                          },
+                                          cell.alignment === "center" &&
+                                            styles.cellTextCenter,
+                                          cell.alignment === "right" &&
+                                            styles.cellTextRight,
+                                        ]}
+                                      >
+                                        {cell.text}
+                                      </Text>
+                                    </View>
+                                  ))}
                                 </View>
                               ))}
                             </View>
-                          ))}
-                        </View>
-                      </Page>
-                    </Document>
-                  </PDFViewer>
-                </div>
-                <Button
-                  onClick={downloadPdf}
-                  className="bg-green-500 hover:bg-green-600 w-full"
-                >
-                  <Download className="mr-2 h-4 w-4" />
-                  Download PDF
-                </Button>
+                          </Page>
+                        </Document>
+                      </PDFViewer>
+                    </div>
+                    <Button
+                      onClick={downloadPdf}
+                      className="group relative overflow-hidden bg-gradient-to-r from-green-600 to-emerald-600 hover:from-green-700 hover:to-emerald-700 text-white h-12 rounded-lg px-6 font-medium w-full transition-all duration-300"
+                    >
+                      <span className="relative z-10 flex items-center justify-center">
+                        <Download className="mr-2 h-4 w-4" />
+                        Download PDF
+                      </span>
+                      <div className="absolute inset-0 bg-gradient-to-r from-emerald-600 to-green-600 opacity-0 group-hover:opacity-100 transition-opacity duration-300" />
+                    </Button>
+                  </div>
+                )}
               </div>
-            )}
-          </div>
-        </Card>
+            </Card>
+          </motion.div>
+        </div>
       </div>
     </div>
   );
