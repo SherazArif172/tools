@@ -9,6 +9,9 @@ import Link from "next/link";
 import { WordRotate } from "@/components/magicui/word-rotate";
 import { TextAnimate } from "@/components/magicui/text-animate";
 
+import { LayoutGroup, motion } from "motion/react";
+import TextRotate from "@/fancy/components/text/text-rotate";
+
 export default function HeroSection() {
   const [searchQuery, setSearchQuery] = useState("");
 
@@ -37,18 +40,35 @@ export default function HeroSection() {
                 Your Shortcut to Simpler Days
               </TextAnimate>
               <span className="inline-flex min-w-[200px] justify-center">
-                <WordRotate
-                  duration={3000}
-                  words={words.map((word) => (
-                    <span
-                      key={word.text}
-                      className={`inline-block px-2 py-4 rounded-md ${word.color} transition-colors `}
-                    >
-                      {word.text}
-                    </span>
-                  ))}
-                  className="inline-block"
-                />
+                <LayoutGroup>
+                  <motion.p className="flex whitespace-pre" layout>
+                    <motion.span
+                      className="pt-0.5 sm:pt-1 md:pt-2"
+                      layout
+                      transition={{
+                        type: "spring",
+                        damping: 30,
+                        stiffness: 400,
+                      }}
+                    ></motion.span>
+                    <TextRotate
+                      texts={words.map((word) => word.text)}
+                      mainClassName="text-white px-2 sm:px-2 md:px-3 bg-[#ff5941] overflow-hidden py-0.5 sm:py-1 md:py-2 justify-center rounded-lg mt-1"
+                      staggerFrom={"last"}
+                      initial={{ y: "-100%" }}
+                      animate={{ y: 0 }}
+                      exit={{ y: "120%" }}
+                      staggerDuration={0.025}
+                      splitLevelClassName="overflow-hidden pb-0.5 sm:pb-1 md:pb-1"
+                      transition={{
+                        type: "spring",
+                        damping: 30,
+                        stiffness: 400,
+                      }}
+                      rotationInterval={3000}
+                    />
+                  </motion.p>
+                </LayoutGroup>
               </span>
             </h1>
             <p className="mx-auto max-w-[600px] text-gray-500 md:text-lg">
