@@ -183,15 +183,15 @@ const pdfTools = [
   //   icon: <FilePresentation className="h-6 w-6" />,
   //   path: "/", // Set path to "/"
   // },
-  {
-    id: "ppt-to-pdf",
-    title: "PPT to PDF",
-    description: "Convert PowerPoint presentations to PDF",
-    color: "bg-orange-100",
-    iconColor: "text-orange-500",
-    icon: <FilePresentation className="h-6 w-6" />,
-    path: "/", // Set path to "/"
-  },
+  // {
+  //   id: "ppt-to-pdf",
+  //   title: "PPT to PDF",
+  //   description: "Convert PowerPoint presentations to PDF",
+  //   color: "bg-orange-100",
+  //   iconColor: "text-orange-500",
+  //   icon: <FilePresentation className="h-6 w-6" />,
+  //   path: "/", // Set path to "/"
+  // },
   // {
   //   id: "pdf-to-excel",
   //   title: "PDF to Excel",
@@ -210,15 +210,15 @@ const pdfTools = [
     icon: <FileSpreadsheet className="h-6 w-6" />,
     path: "/excel-to-pdf", // Set path to "/"
   },
-  {
-    id: "pdf-page-number",
-    title: "PDF Page Number",
-    description: "Add page numbers to your PDF",
-    color: "bg-purple-100",
-    iconColor: "text-purple-500",
-    icon: <Type className="h-6 w-6" />,
-    path: "/", // Set path to "/"
-  },
+  // {
+  //   id: "pdf-page-number",
+  //   title: "PDF Page Number",
+  //   description: "Add page numbers to your PDF",
+  //   color: "bg-purple-100",
+  //   iconColor: "text-purple-500",
+  //   icon: <Type className="h-6 w-6" />,
+  //   path: "/", // Set path to "/"
+  // },
   // {
   //   id: "pdf-to-epub",
   //   title: "PDF to EPUB",
@@ -228,24 +228,24 @@ const pdfTools = [
   //   icon: <BookOpen className="h-6 w-6" />,
   //   path: "/", // Set path to "/"
   // },
-  {
-    id: "epub-to-pdf",
-    title: "EPUB to PDF",
-    description: "Convert EPUB files to PDF",
-    color: "bg-blue-100",
-    iconColor: "text-blue-500",
-    icon: <BookOpen className="h-6 w-6" />,
-    path: "/", // Set path to "/"
-  },
-  {
-    id: "pdf-watermark",
-    title: "PDF Watermark",
-    description: "Add watermarks to your PDF",
-    color: "bg-purple-100",
-    iconColor: "text-purple-500",
-    icon: <Stamp className="h-6 w-6" />,
-    path: "/", // Set path to "/"
-  },
+  // {
+  //   id: "epub-to-pdf",
+  //   title: "EPUB to PDF",
+  //   description: "Convert EPUB files to PDF",
+  //   color: "bg-blue-100",
+  //   iconColor: "text-blue-500",
+  //   icon: <BookOpen className="h-6 w-6" />,
+  //   path: "/", // Set path to "/"
+  // },
+  // {
+  //   id: "pdf-watermark",
+  //   title: "PDF Watermark",
+  //   description: "Add watermarks to your PDF",
+  //   color: "bg-purple-100",
+  //   iconColor: "text-purple-500",
+  //   icon: <Stamp className="h-6 w-6" />,
+  //   path: "/", // Set path to "/"
+  // },
   // {
   //   id: "protect-pdf",
   //   title: "Protect PDF",
@@ -264,15 +264,15 @@ const pdfTools = [
   //   icon: <Type className="h-6 w-6" />,
   //   path: "/", // Set path to "/"
   // },
-  {
-    id: "text-to-pdf",
-    title: "Text to PDF",
-    description: "Convert text files to PDF",
-    color: "bg-cyan-100",
-    iconColor: "text-cyan-500",
-    icon: <FileType className="h-6 w-6" />,
-    path: "/", // Set path to "/"
-  },
+  // {
+  //   id: "text-to-pdf",
+  //   title: "Text to PDF",
+  //   description: "Convert text files to PDF",
+  //   color: "bg-cyan-100",
+  //   iconColor: "text-cyan-500",
+  //   icon: <FileType className="h-6 w-6" />,
+  //   path: "/", // Set path to "/"
+  // },
   // {
   //   id: "add-watermark",
   //   title: "Add Watermark",
@@ -282,24 +282,24 @@ const pdfTools = [
   //   icon: <Stamp className="h-6 w-6" />,
   //   path: "/", // Set path to "/"
   // },
-  {
-    id: "heic-to-pdf",
-    title: "HEIC to PDF",
-    description: "Convert HEIC images to PDF",
-    color: "bg-blue-100",
-    iconColor: "text-blue-500",
-    icon: <Image className="h-6 w-6" />,
-    path: "/", // Set path to "/"
-  },
-  {
-    id: "svg-to-pdf",
-    title: "SVG to PDF",
-    description: "Convert SVG files to PDF",
-    color: "bg-green-100",
-    iconColor: "text-green-500",
-    icon: <FileCode className="h-6 w-6" />,
-    path: "/", // Set path to "/"
-  },
+  // {
+  //   id: "heic-to-pdf",
+  //   title: "HEIC to PDF",
+  //   description: "Convert HEIC images to PDF",
+  //   color: "bg-blue-100",
+  //   iconColor: "text-blue-500",
+  //   icon: <Image className="h-6 w-6" />,
+  //   path: "/", // Set path to "/"
+  // },
+  // {
+  //   id: "svg-to-pdf",
+  //   title: "SVG to PDF",
+  //   description: "Convert SVG files to PDF",
+  //   color: "bg-green-100",
+  //   iconColor: "text-green-500",
+  //   icon: <FileCode className="h-6 w-6" />,
+  //   path: "/", // Set path to "/"
+  // },
   // {
   //   id: "pdf-to-svg",
   //   title: "PDF to SVG",
@@ -309,15 +309,15 @@ const pdfTools = [
   //   icon: <FileCode className="h-6 w-6" />,
   //   path: "/", // Set path to "/"
   // },
-  {
-    id: "webp-to-pdf",
-    title: "WEBP to PDF",
-    description: "Convert WEBP images to PDF",
-    color: "bg-cyan-100",
-    iconColor: "text-cyan-500",
-    icon: <Image className="h-6 w-6" />,
-    path: "/", // Set path to "/"
-  },
+  // {
+  //   id: "webp-to-pdf",
+  //   title: "WEBP to PDF",
+  //   description: "Convert WEBP images to PDF",
+  //   color: "bg-cyan-100",
+  //   iconColor: "text-cyan-500",
+  //   icon: <Image className="h-6 w-6" />,
+  //   path: "/", // Set path to "/"
+  // },
   // {
   //   id: "pdf-to-webp",
   //   title: "PDF to WEBP",
@@ -327,33 +327,33 @@ const pdfTools = [
   //   icon: <FileImage className="h-6 w-6" />,
   //   path: "/", // Set path to "/"
   // },
-  {
-    id: "gif-to-pdf",
-    title: "GIF to PDF",
-    description: "Convert GIF images to PDF",
-    color: "bg-purple-100",
-    iconColor: "text-purple-500",
-    icon: <Image className="h-6 w-6" />,
-    path: "/", // Set path to "/"
-  },
-  {
-    id: "bitmap-to-pdf",
-    title: "Bitmap to PDF",
-    description: "Convert bitmap images to PDF",
-    color: "bg-blue-100",
-    iconColor: "text-blue-500",
-    icon: <Image className="h-6 w-6" />,
-    path: "/", // Set path to "/"
-  },
-  {
-    id: "eps-to-pdf",
-    title: "EPS to PDF",
-    description: "Convert EPS files to PDF",
-    color: "bg-amber-100",
-    iconColor: "text-amber-500",
-    icon: <FileCode className="h-6 w-6" />,
-    path: "/", // Set path to "/"
-  },
+  // {
+  //   id: "gif-to-pdf",
+  //   title: "GIF to PDF",
+  //   description: "Convert GIF images to PDF",
+  //   color: "bg-purple-100",
+  //   iconColor: "text-purple-500",
+  //   icon: <Image className="h-6 w-6" />,
+  //   path: "/", // Set path to "/"
+  // },
+  // {
+  //   id: "bitmap-to-pdf",
+  //   title: "Bitmap to PDF",
+  //   description: "Convert bitmap images to PDF",
+  //   color: "bg-blue-100",
+  //   iconColor: "text-blue-500",
+  //   icon: <Image className="h-6 w-6" />,
+  //   path: "/", // Set path to "/"
+  // },
+  // {
+  //   id: "eps-to-pdf",
+  //   title: "EPS to PDF",
+  //   description: "Convert EPS files to PDF",
+  //   color: "bg-amber-100",
+  //   iconColor: "text-amber-500",
+  //   icon: <FileCode className="h-6 w-6" />,
+  //   path: "/", // Set path to "/"
+  // },
 ];
 
 export default function PdfToolsComplete() {

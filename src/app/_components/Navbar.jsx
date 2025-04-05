@@ -217,11 +217,11 @@ export default function Navbar() {
 
   const filteredTools = Object.entries(toolCategories).reduce(
     (acc, [category, data]) => {
-      const matchingTools = Object.entries(data.tools).filter(([toolName]) =>
-        toolName.toLowerCase().includes(searchQuery.toLowerCase())
+      const matchingTools = data.tools.filter((tool) =>
+        tool.name.toLowerCase().includes(searchQuery.toLowerCase())
       );
       if (matchingTools.length > 0) {
-        acc.push({ category: category, tools: matchingTools });
+        acc.push({ category, tools: matchingTools });
       }
       return acc;
     },
@@ -350,14 +350,16 @@ export default function Navbar() {
                       <div className="px-4 py-2 text-sm font-semibold text-indigo-600 dark:text-gray-400 bg-indigo-50/50 dark:bg-gray-800/50">
                         {category}
                       </div>
-                      {tools.map(([toolName, route]) => (
+                      {tools.map((tool) => (
                         <button
-                          key={route}
+                          key={tool.path}
                           className="w-full px-4 py-2 text-left text-sm hover:bg-indigo-50/50 dark:hover:bg-gray-700/50 flex items-center text-gray-700 dark:text-gray-200"
-                          onClick={() => handleToolSelect(route)}
+                          onClick={() => handleToolSelect(tool.path)}
                         >
-                          <Search className="h-4 w-4 mr-2 text-indigo-400" />
-                          {toolName}
+                          <span className="text-indigo-400 mr-2">
+                            {tool.icon}
+                          </span>
+                          {tool.name}
                         </button>
                       ))}
                     </div>
