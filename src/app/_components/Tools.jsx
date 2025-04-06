@@ -35,12 +35,12 @@ export default function ToolsSection() {
     {
       icon: <Video className="h-5 w-5" />,
       count: "10+ tools",
-      title: "Video Tools",
-      description: "Solve Your Video Problems",
+      title: "Online Video Downloader",
+      description: "Download Online Videos",
       featuredTool: "Mute Video",
       color: "bg-rose-100 text-rose-500",
       iconBg: "bg-rose-500",
-      path: "/", // Added path
+      path: "/video", // Added path
     },
     {
       icon: <MessageSquare className="h-5 w-5" />,
