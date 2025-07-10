@@ -115,7 +115,7 @@ export default function VideoToolsPage() {
   });
 
   return (
-    <div className="relative min-h-screen w-full overflow-hidden">
+    <div className="relative min-h-screen w-full overflow-hidden max-w-7xl mx-auto">
       {/* Background Design */}
       <div className="absolute inset-0 -z-10">
         {/* Base gradient */}
